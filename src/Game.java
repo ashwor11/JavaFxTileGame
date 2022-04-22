@@ -1,3 +1,4 @@
+import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -59,6 +60,7 @@ public class Game extends Application {
             temp.setNode(circle);
             temp.setDuration(Duration.millis(1000));
             temp.setPath(shape);
+            temp.setInterpolator(Interpolator.LINEAR);
 
             sequentialTransition.getChildren().add(temp);
 
@@ -127,12 +129,19 @@ public class Game extends Application {
 
                         currentPoint = tiles[j].points.get(1);
 
-                        if (tiles[j] instanceof CurvedPipe)
+                        if (tiles[j] instanceof CurvedPipe) {
                             shapes.add(((CurvedPipe) tiles[j]).getShape());
-                        if (tiles[j] instanceof Pipe)
+                            ((CurvedPipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
+                        }
+                        if (tiles[j] instanceof Pipe) {
                             shapes.add(((Pipe) tiles[j]).getShape());
-                        if (tiles[j] instanceof PipeStatic)
+                            ((Pipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
+                        }
+                        if (tiles[j] instanceof PipeStatic) {
                             shapes.add(((PipeStatic) tiles[j]).getShape());
+
+                        }
+                        currentPoint = tiles[j].points.get(1);
 
                     } else if (tiles[j].points.get(1).equals(currentPoint)) {
 
@@ -143,6 +152,8 @@ public class Game extends Application {
                             shapes.add(((Pipe) tiles[j]).getShape());
                         if (tiles[j] instanceof PipeStatic)
                             shapes.add(((PipeStatic) tiles[j]).getShape());
+
+                        currentPoint = tiles[j].points.get(0);
                     }
 
 

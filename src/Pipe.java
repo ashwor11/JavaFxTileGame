@@ -10,6 +10,7 @@ public class Pipe extends Tile {
     private String status1;
     private Line shape;
     private boolean isEnter1ReallyEnter;  //Solution ı bulurken bunu belirlemek zorundayız. Animasyon için gerekli
+    private Point2D enter1Point, enter2Point;
 
     public Pipe(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
@@ -30,28 +31,36 @@ public class Pipe extends Tile {
 
         if (enter1 == 1) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter1 == 2) {
             points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
         else if (enter1 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter1 == 4) {
             points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
 
         if (enter2 == 1) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter2 == 2) {
             points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
         else if (enter2 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter2 == 4) {
             points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
 
 
@@ -141,5 +150,13 @@ public class Pipe extends Tile {
 
     public void setEnter1ReallyEnter(boolean enter1ReallyEnter) {
         isEnter1ReallyEnter = enter1ReallyEnter;
+    }
+
+    public void determineIsEnter1ReallyEnter(Point2D point) {
+
+        if (enter1Point.equals(point))
+            isEnter1ReallyEnter = true;
+        else
+            isEnter1ReallyEnter = false;
     }
 }

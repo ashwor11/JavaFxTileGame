@@ -195,18 +195,18 @@ public class DrawShape {
             if (enterCordinate == 1) {
 
                 if (yCoordinate == 0)
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - 125.0/2);
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - 125.0/2, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
                 else
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2 + 5.0/2));
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
 
             }
 
             else if(enterCordinate == 3) {
 
                 if (yCoordinate == 3)
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2);
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
                 else
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2 + 5.0/2);
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
 
             }
 
@@ -217,18 +217,18 @@ public class DrawShape {
             if (enterCordinate == 2) {
 
                 if (xCoordinate == 3)
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane + 125.0/2, centerOfTileYCorrdinateInCenterPane);
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane + 125.0/2, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
                 else
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileYCorrdinateInCenterPane);
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
 
             }
 
             else if (enterCordinate == 4) {
 
                 if(xCoordinate == 0)
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane - 125.0/2, centerOfTileYCorrdinateInCenterPane);
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane - 125.0/2, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
                 else
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileYCorrdinateInCenterPane);
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane);
 
             }
 
@@ -251,7 +251,7 @@ public class DrawShape {
 
             if (yCoordinate == 1 || yCoordinate == 2) {
 
-                if (isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
+                if (!isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
                     shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2 + 5.0/2);
                 else
                     shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2 + 5.0/2));
@@ -260,7 +260,7 @@ public class DrawShape {
 
             else if (yCoordinate == 0) {
 
-                if (isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
+                if (!isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
                     shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2), centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2 + 5.0/2);
                 else
                     shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2));
@@ -269,7 +269,7 @@ public class DrawShape {
 
             else if (yCoordinate == 3) {
 
-                if (isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
+                if (!isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
                     shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2);
                 else
                     shape = new Line(centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane + 125.0/2, centerOfTileXCorrdinateInCenterPane, centerOfTileYCorrdinateInCenterPane - (125.0/2 + 5.0/2));
@@ -285,8 +285,8 @@ public class DrawShape {
 
             if (xCoordinate == 1 || xCoordinate == 2) {
 
-                if (isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
-                    shape = new Line(centerOfTileXCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileYCorrdinateInCenterPane + 125.0/2 + 5.0/2);
+                if (!isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
+                    shape = new Line(centerOfTileXCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileYCorrdinateInCenterPane);
                 else
                     shape = new Line(centerOfTileXCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileYCorrdinateInCenterPane);
 
@@ -294,7 +294,7 @@ public class DrawShape {
 
             else if (xCoordinate == 0) {
 
-                if (isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
+                if (!isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
                     shape = new Line(centerOfTileXCorrdinateInCenterPane - 125.0/2, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileYCorrdinateInCenterPane);
                 else
                     shape = new Line(centerOfTileXCorrdinateInCenterPane + 125.0/2 + 5.0/2, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane - 125.0/2, centerOfTileYCorrdinateInCenterPane);
@@ -303,7 +303,7 @@ public class DrawShape {
 
             else if (xCoordinate == 3) {
 
-                if (isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
+                if (!isEnter1ReallyEnter) //Line başlangıç noktası animasyon için önemli, bu nedenle ona göre ayarlıyoruz
                     shape = new Line(centerOfTileXCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane + 125.0/2, centerOfTileYCorrdinateInCenterPane);
                 else
                     shape = new Line(centerOfTileXCorrdinateInCenterPane + 125.0/2, centerOfTileYCorrdinateInCenterPane, centerOfTileXCorrdinateInCenterPane - (125.0/2 + 5.0/2), centerOfTileYCorrdinateInCenterPane);
