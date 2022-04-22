@@ -2,16 +2,13 @@ import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.DragEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
@@ -19,217 +16,73 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import sun.awt.geom.Curve;
 
-import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Handler;
 
 public class Game extends Application {
 
-    Tile[] tiles = new Tile[16];
-    ArrayList<Shape> shapes = new ArrayList<>();
-    GridPane gridPane = new GridPane();
+    int level = 1;
+
+
+
+
+    GridPane gridPane;
     StackPane centerPane;
 
-    BorderPane borderPane = new BorderPane();
+    boolean levelFinished;
+
+    BorderPane borderPane;
     boolean isSolved;
-    private static int numberOfMoves = 0;
+    private static int numberOfMoves;
+
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
 
-        //TAKING THE INPUT FROM TXT
+                startGame(primaryStage);
 
 
-        String path = new File(".").getAbsolutePath();
-        File file = new File("CSE1242_spring2022_project_level4.txt");
 
-        try (Scanner sc = new Scanner(file)) {
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                if (line.equals(""))
-                    continue;
-                String values[] = line.split(",");
-
-                String boxNumber = values[0];
-                String tileType = values[1];
-                String property = values[2];  //property means "hoziontal","vertical","none","free" and "curved pipe type"
-
-                int x;  //Coordinates of current tile
-                int y;
-
-                y = (Integer.parseInt(boxNumber) - 1) / 4;
-                x = (Integer.parseInt(boxNumber) - 1) % 4;
-
-
-                if (tileType.equals("Starter")) {
-                    tiles[Integer.parseInt(boxNumber) - 1] = new Starter(x, y, property);
-                } else if (tileType.equals("Empty")) {  //Empty free mi yoksa none mı kontrol edip ona göre yapmak gerek
-
-                    if (property.equals("none"))
-                        tiles[Integer.parseInt(boxNumber) - 1] = new Empty(x, y);
-                    else
-                        tiles[Integer.parseInt(boxNumber) - 1] = new EmptyFree(x, y);
-
-                } else if (tileType.equals("Pipe")) {
-
-                    if (property.equals("Horizontal") || property.equals("Vertical"))  //Normal pipe
-                        tiles[Integer.parseInt(boxNumber) - 1] = new Pipe(x, y, property);
-                    else  //Curved pipe
-                        tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property);
-
-                } else if (tileType.equals("PipeStatic")) {
-                    tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
-                } else if (tileType.equals("End")) {
-                    tiles[Integer.parseInt(boxNumber) - 1] = new End(x, y, property);
-                }
-                //Tile türü bulundu ve oluşturuldu.
-
-            }
         }
 
+    private void playAnimation(ArrayList<Shape> shapes, Circle circle) {
+        SequentialTransition sequentialTransition = new SequentialTransition();
 
-        //GUI DESIGN
+        for (Shape shape : shapes) {
+            PathTransition temp = new PathTransition();
+            temp.setNode(circle);
+            temp.setDuration(Duration.millis(1000));
+            temp.setPath(shape);
 
+            sequentialTransition.getChildren().add(temp);
 
-        //Center design
-
-        for (Tile tile : tiles) {
-            gridPane.add(tile, tile.getXCoordinate(), tile.getYCoordinate());
 
         }
-        gridPane.setHgap(5);
-        gridPane.setVgap(5);
-        gridPane.setStyle("-fx-background-color: white");  //Bunu sihay yapcaz resimler düzeldiğinde
-
-
-        centerPane = new StackPane();
-        centerPane.setStyle("-fx-background-color: white;");
-        centerPane.getChildren().add(gridPane);
-        centerPane.setPadding(new Insets(0, 50, 0, 50));
-
-        Pane generalPane = new Pane();
-        generalPane.getChildren().add(centerPane);
-
-        Circle circle = new Circle((50 + 125 / 2), (125 / 2), 15);
-        circle.setFill(Color.ORANGE);
-        circle.setStroke(Color.BLACK);
-        generalPane.getChildren().add(circle);
-
-
-        //Center design
-
-
-        //Bottom design
-        Label movesLabel = new Label();
-
-        movesLabel.setText("Moves: " + numberOfMoves); //Her hamle action sonrası bunu yazdırmayı unutma
-        movesLabel.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
-        Pane pane = new Pane();
-        pane.getChildren().add(movesLabel);
-
-/*
-        Button temp = new Button("dene");  //Deney amaçlı sonra silinecek
-        temp.setOnAction(e -> {
-            // look the second variable is EmptyFree object or not
-            
-            System.out.println(checkSolution(tiles));
-            dragTile(tiles[9],(EmptyFree) tiles[13]);
-            System.out.println(checkSolution(tiles));
-        });
-*/
-
-
-        for (Tile tile : tiles) {
-            tile.setOnMouseReleased(e -> {
-                Tile tile1 = (Tile) e.getTarget();
-                Tile tile2 = (Tile) e.getPickResult().getIntersectedNode();
-                dragTile(tile1, tile2);
-
-                movesLabel.setText("Moves: " + numberOfMoves);
-
-               isSolved = checkSolution(tiles);
-                System.out.println(isSolved);
-
-
-                //path transition yap
-
-
-                if (isSolved) {
-
-
-                    SequentialTransition sequentialTransition = new SequentialTransition();
-
-                    for (Shape shape : shapes) {
-                        PathTransition temp = new PathTransition();
-                        temp.setNode(circle);
-                        temp.setDuration(Duration.millis(1000));
-                        temp.setPath(shape);
-
-                        sequentialTransition.getChildren().add(temp);
-                    }
-                    sequentialTransition.play();
-
-
-
-
-
-                }
-
-
-                if (isSolved) {  //Burası deneme amaçlı
-                    for (int i = 0; i < shapes.size(); i++) {
-                        generalPane.getChildren().add(shapes.get(i));
-                    }
-                }
-
-
-                primaryStage.show();
-            });
-        }
-
-
-        // pane.getChildren().add(temp);
-        //Bottom design end
-
-
-        //Top design
-        Label title = new Label();
-        title.setText("GameName");
-        title.setTextFill(Color.DARKBLUE);
-        title.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
-
-        StackPane titlePane = new StackPane();
-        titlePane.getChildren().add(title);
-        //Top design end
-
-
-        borderPane.setStyle("-fx-background-color: white;");
-        borderPane.setTop(titlePane);
-        borderPane.setCenter(generalPane);
-        borderPane.setBottom(pane);
-
-
-        Scene scene = new Scene(borderPane, 600, 600); //kutular 500*500  + sağdan ve soldan 50 piksel
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Game");
-        primaryStage.show();
-
+        sequentialTransition.play();
 
     }
+
+
+    //TAKING THE INPUT FROM TXT
+
+
+
+
+
+
 
     public static void main(String[] args) {
         launch(args);
     }
 
 
-    public boolean checkSolution(Tile[] tiles) {
+    public boolean checkSolution(Tile[] tiles, ArrayList<Shape> shapes) {
 
         /*
         Her hamle action sonrası bu metodu çağırcaz. Eğer true gönderirse Animasyonu başlatıp topu borulardan geçirçez ve..
@@ -302,7 +155,7 @@ public class Game extends Application {
 
     }
 
-    public void dragTile(Tile current, Tile target) {
+    public void dragTile(Tile current, Tile target, Tile[] tiles) {
 
 
         if (!(target instanceof EmptyFree))
@@ -399,17 +252,198 @@ public class Game extends Application {
 
 
 
-    public void animate(ArrayList<PathTransition> pathTransitions, int index) {
-        for (int i = index; i < pathTransitions.size(); i++) {
-            pathTransitions.get(i).play();
-            index++;
-            System.out.println(i);
-            int finalIndex = index;
-            pathTransitions.get(i).setOnFinished(e -> {
-                System.out.println(finalIndex + "   " + pathTransitions.get(finalIndex));
-                animate(pathTransitions, finalIndex);
+
+
+    public Tile[] createTiles(int i){
+        Tile[] tiles = new Tile[16];
+        String filename = "CSE1242_spring2022_project_level";
+        File file = new File(filename + i + ".txt");
+
+
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                if (line.equals(""))
+                    continue;
+                String values[] = line.split(",");
+
+                String boxNumber = values[0];
+                String tileType = values[1];
+                String property = values[2];  //property means "hoziontal","vertical","none","free" and "curved pipe type"
+
+                int x;  //Coordinates of current tile
+                int y;
+
+                y = (Integer.parseInt(boxNumber) - 1) / 4;
+                x = (Integer.parseInt(boxNumber) - 1) % 4;
+
+
+                if (tileType.equals("Starter")) {
+                    tiles[Integer.parseInt(boxNumber) - 1] = new Starter(x, y, property);
+                } else if (tileType.equals("Empty")) {  //Empty free mi yoksa none mı kontrol edip ona göre yapmak gerek
+
+                    if (property.equals("none"))
+                        tiles[Integer.parseInt(boxNumber) - 1] = new Empty(x, y);
+                    else
+                        tiles[Integer.parseInt(boxNumber) - 1] = new EmptyFree(x, y);
+
+                } else if (tileType.equals("Pipe")) {
+
+                    if (property.equals("Horizontal") || property.equals("Vertical"))  //Normal pipe
+                        tiles[Integer.parseInt(boxNumber) - 1] = new Pipe(x, y, property);
+                    else  //Curved pipe
+                        tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property);
+
+                } else if (tileType.equals("PipeStatic")) {
+                    tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
+                } else if (tileType.equals("End")) {
+                    tiles[Integer.parseInt(boxNumber) - 1] = new End(x, y, property);
+                }
+                //Tile türü bulundu ve oluşturuldu.
+
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return tiles;
+    }
+
+    public void startGame(Stage primaryStage){
+        gridPane = new GridPane();
+        borderPane = new BorderPane();
+        numberOfMoves = 0;
+        Tile[] tiles = createTiles(level);
+        ArrayList<Shape> shapes = new ArrayList<>();
+
+        for (Tile tile : tiles) {
+            gridPane.add(tile, tile.getXCoordinate(), tile.getYCoordinate());
+
+        }
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
+        gridPane.setStyle("-fx-background-color: white");  //Bunu sihay yapcaz resimler düzeldiğinde
+
+
+        centerPane = new StackPane();
+        centerPane.setStyle("-fx-background-color: white;");
+        centerPane.getChildren().add(gridPane);
+        centerPane.setPadding(new Insets(0, 50, 0, 50));
+
+        Pane generalPane = new Pane();
+        generalPane.getChildren().add(centerPane);
+
+        Circle circle = new Circle((50 + 125 / 2), (125 / 2), 15);
+        circle.setFill(Color.ORANGE);
+        circle.setStroke(Color.BLACK);
+        generalPane.getChildren().add(circle);
+
+
+        //Center design
+
+
+        //Bottom design
+        Label movesLabel = new Label();
+
+        Button yeniLevel = new Button("Sonraki");
+
+
+
+        movesLabel.setText("Moves: " + numberOfMoves); //Her hamle action sonrası bunu yazdırmayı unutma
+        movesLabel.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
+        Pane pane = new Pane();
+        pane.getChildren().add(movesLabel);
+        pane.getChildren().add(yeniLevel);
+        yeniLevel.setVisible(true);
+
+        yeniLevel.setOnAction(e -> {
+            startGame(primaryStage);
+        });
+
+
+        //GUI DESIGN
+
+
+        //Center design
+
+
+
+/*
+        Button temp = new Button("dene");  //Deney amaçlı sonra silinecek
+        temp.setOnAction(e -> {
+            // look the second variable is EmptyFree object or not
+
+            System.out.println(checkSolution(tiles));
+            dragTile(tiles[9],(EmptyFree) tiles[13]);
+            System.out.println(checkSolution(tiles));
+        });
+*/
+
+
+        for (Tile tile : tiles) {
+            tile.setOnMouseReleased(e -> {
+                Tile tile1 = (Tile) e.getTarget();
+                Tile tile2 = (Tile) e.getPickResult().getIntersectedNode();
+                dragTile(tile1, tile2, tiles);
+
+                movesLabel.setText("Moves: " + numberOfMoves);
+
+                isSolved = checkSolution(tiles,shapes);
+
+
+                //path transition yap
+
+
+                if (isSolved) {
+                    playAnimation(shapes,circle);
+                    level++;
+
+
+
+                }
+
+
+                if (isSolved) {  //Burası deneme amaçlı
+                    for (int i = 0; i < shapes.size(); i++) {
+                        generalPane.getChildren().add(shapes.get(i));
+                    }
+                }
+
+
+                primaryStage.show();
             });
         }
 
+
+        // pane.getChildren().add(temp);
+        //Bottom design end
+
+
+        //Top design
+        Label title = new Label();
+        title.setText("GameName");
+        title.setTextFill(Color.DARKBLUE);
+        title.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
+
+        StackPane titlePane = new StackPane();
+        titlePane.getChildren().add(title);
+        //Top design end
+
+
+
+
+        borderPane.setStyle("-fx-background-color: white;");
+        borderPane.setTop(titlePane);
+        borderPane.setCenter(generalPane);
+        borderPane.setBottom(pane);
+
+
+        Scene scene = new Scene(borderPane, 600, 600); //kutular 500*500  + sağdan ve soldan 50 piksel
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Game");
+        primaryStage.show();
+
     }
+
+
+
 }
