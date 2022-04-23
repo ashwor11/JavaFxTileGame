@@ -129,40 +129,40 @@ public class Game extends Application {
 
 
                         if (tiles[j] instanceof CurvedPipe) {
-                            shapes.add(((CurvedPipe) tiles[j]).getShape());
                             ((CurvedPipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
                             ((CurvedPipe) tiles[j]).setShape(((CurvedPipe) tiles[j]).getStatus(), ((CurvedPipe) tiles[j]).getXCoordinate(), ((CurvedPipe) tiles[j]).getYCoordinate(), ((CurvedPipe) tiles[j]).isEnter1ReallyEnter());
+                            shapes.add(((CurvedPipe) tiles[j]).getShape());
                         }
                         if (tiles[j] instanceof Pipe) {
-                            shapes.add(((Pipe) tiles[j]).getShape());
                             ((Pipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
                             ((Pipe) tiles[j]).setShape(((Pipe) tiles[j]).getStatus(), ((Pipe) tiles[j]).getXCoordinate(), ((Pipe) tiles[j]).getYCoordinate(), ((Pipe) tiles[j]).isEnter1ReallyEnter());
+                            shapes.add(((Pipe) tiles[j]).getShape());
 
                         }
                         if (tiles[j] instanceof PipeStatic) {
-                            shapes.add(((PipeStatic) tiles[j]).getShape());
                             ((PipeStatic) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
                             ((PipeStatic) tiles[j]).setShape(((PipeStatic) tiles[j]).getStatus(), ((PipeStatic) tiles[j]).getXCoordinate(), ((PipeStatic) tiles[j]).getYCoordinate(), ((PipeStatic) tiles[j]).isEnter1ReallyEnter());
+                            shapes.add(((PipeStatic) tiles[j]).getShape());
                         }
                         currentPoint = tiles[j].points.get(1);
 
                     } else if (tiles[j].points.get(1).equals(currentPoint)) {
 
                         if (tiles[j] instanceof CurvedPipe) {
-                            shapes.add(((CurvedPipe) tiles[j]).getShape());
                             ((CurvedPipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
                             ((CurvedPipe) tiles[j]).setShape(((CurvedPipe) tiles[j]).getStatus(), ((CurvedPipe) tiles[j]).getXCoordinate(), ((CurvedPipe) tiles[j]).getYCoordinate(), ((CurvedPipe) tiles[j]).isEnter1ReallyEnter());
+                            shapes.add(((CurvedPipe) tiles[j]).getShape());
                         }
                         if (tiles[j] instanceof Pipe) {
-                            shapes.add(((Pipe) tiles[j]).getShape());
                             ((Pipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
                             ((Pipe) tiles[j]).setShape(((Pipe) tiles[j]).getStatus(), ((Pipe) tiles[j]).getXCoordinate(), ((Pipe) tiles[j]).getYCoordinate(), ((Pipe) tiles[j]).isEnter1ReallyEnter());
+                            shapes.add(((Pipe) tiles[j]).getShape());
 
                         }
                         if (tiles[j] instanceof PipeStatic) {
-                            shapes.add(((PipeStatic) tiles[j]).getShape());
                             ((PipeStatic) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
                             ((PipeStatic) tiles[j]).setShape(((PipeStatic) tiles[j]).getStatus(), ((PipeStatic) tiles[j]).getXCoordinate(), ((PipeStatic) tiles[j]).getYCoordinate(), ((PipeStatic) tiles[j]).isEnter1ReallyEnter());
+                            shapes.add(((PipeStatic) tiles[j]).getShape());
                         }
 
                         currentPoint = tiles[j].points.get(0);
@@ -202,7 +202,7 @@ public class Game extends Application {
         int targetXCoordinate = current.getXCoordinate();
         int targetYCoordinate = current.getYCoordinate();
 
-        //looking for the tile that are attached
+        //looking for if the tiles that are attached
         if (!(currentXCoordinatexCoordinate - targetXCoordinate == 0 && Math.abs(currentYCoordinateyCoordinate - targetYCoordinate) == 1) && !(Math.abs(currentXCoordinatexCoordinate - targetXCoordinate) == 1 && currentYCoordinateyCoordinate - targetYCoordinate == 0))
             return;
 
@@ -281,8 +281,8 @@ public class Game extends Application {
     public Tile[] createTiles(int i){
         Tile[] tiles = new Tile[16];
         String filename = "CSE1242_spring2022_project_level";
-        //File file = new File(filename + i + ".txt"); //4. deneyi deneme amaçlı
-        File file = new File("CSE1242_spring2022_project_level4.txt");
+        File file = new File(filename + i + ".txt"); //4. deneyi deneme amaçlı
+        //File file = new File("CSE1242_spring2022_project_level4.txt");
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
