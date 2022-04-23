@@ -111,6 +111,37 @@ public class CurvedPipe extends Tile{
         }
     }
 
+    public void setPoints() {
+
+        if (enter1 == 1) {
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
+        }
+        else if (enter1 == 2) {
+            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+        }
+        else if (enter1 == 3) {
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
+        }
+        else if (enter1 == 4) {
+            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+        }
+        if (enter2 == 1) {
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
+        }
+        else if (enter2 == 2) {
+            enter2Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+        }
+        else if (enter2 == 3) {
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
+        }
+        else if (enter2 == 4) {
+            enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+        }
+        points.set(0, enter1Point);
+        points.set(1, enter2Point);
+
+    }
+
 
     public Arc getShape() {
         return shape;

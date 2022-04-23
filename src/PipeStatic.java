@@ -6,6 +6,7 @@ public class PipeStatic extends Tile{
     private int enter1;
     private int enter2;
     private int exit;
+    private String status1;
     private Line shape;
     private boolean isEnter1ReallyEnter;
     private Point2D enter1Point, enter2Point;
@@ -13,6 +14,7 @@ public class PipeStatic extends Tile{
 
     public PipeStatic(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
+        status1 = status;
 
         setMoveable(false);
         if(status.equals("Horizontal")){
@@ -151,5 +153,13 @@ public class PipeStatic extends Tile{
             isEnter1ReallyEnter = true;
         else
             isEnter1ReallyEnter = false;
+    }
+
+    public String getStatus() {
+        return status1;
+    }
+
+    public void setStatus1(String status1) {
+        this.status1 = status1;
     }
 }
