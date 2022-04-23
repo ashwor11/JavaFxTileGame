@@ -32,16 +32,16 @@ public class PipeStatic extends Tile{
             enter1Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter1 == 2) {
-            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
-            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
         else if (enter1 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
             enter1Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter1 == 4) {
-            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
-            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
 
         if (enter2 == 1) {
@@ -49,16 +49,16 @@ public class PipeStatic extends Tile{
             enter2Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter2 == 2) {
-            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
-            enter2Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
         else if (enter2 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
             enter2Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter2 == 4) {
-            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
-            enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
 
 
@@ -79,28 +79,36 @@ public class PipeStatic extends Tile{
         points.clear();
         if (enter1 == 1) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter1 == 2) {
-            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
         else if (enter1 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter1 == 4) {
-            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
 
         if (enter2 == 1) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter2 == 2) {
-            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
         else if (enter2 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter2 == 4) {
-            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
 
 

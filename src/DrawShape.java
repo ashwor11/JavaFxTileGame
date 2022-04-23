@@ -102,13 +102,13 @@ public class DrawShape {
                 if (xCoordinate == 0) {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2, 125.0 / 2 + 5.0 / 2, 0, 90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2, 125.0 / 2 + 5.0 / 2, -270, -90);
                     else
                         shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2, 125.0 / 2 + 5.0 / 2, 90, -90);
                 } else {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - (125.0 / 2 + 5.0 / 2), centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2 + 5.0 / 2, 125.0 / 2 + 5.0 / 2, 0, 90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - (125.0 / 2 + 5.0 / 2), centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2 + 5.0 / 2, 125.0 / 2 + 5.0 / 2, -270, -90);
                     else
                         shape = new Arc(centerOfTileXCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), centerOfTileYCorrdinateInCenterPane - (125.0 / 2 + 5.0 / 2), 125.0 / 2 + 5.0 / 2, 125.0 / 2 + 5.0 / 2, 90, -90);
 
@@ -119,14 +119,14 @@ public class DrawShape {
                 if (xCoordinate == 0) {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2, 125.0 / 2, 0, 90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2, 125.0 / 2, -270, -90);
                     else
                         shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2, 125.0 / 2, 90, -90);
 
                 } else {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2 + 5.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2 + 5.0 / 2, 125.0 / 2, 0, 90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2 + 5.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2 + 5.0 / 2, 125.0 / 2, -270, -90);
                     else
                         shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2 + 5.0 / 2, centerOfTileYCorrdinateInCenterPane - 125.0 / 2, 125.0 / 2 + 5.0 / 2, 125.0 / 2, 90, -90);
 
@@ -143,15 +143,15 @@ public class DrawShape {
                 if (xCoordinate == 3) {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2, centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2, 125.0 / 2 + 5.0 / 2, 180, -90);
-                    else
                         shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2, centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2, 125.0 / 2 + 5.0 / 2, 90, 90);
+                    else
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125 + (125.0 / 2 + 5.0 / 2), 125.0 / 2, 125.0 / 2 + 5.0 / 2, 180, -90);
                 } else {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2 + 5.0 / 2, 125.0 / 2 + 5.0 / 2, 180, -90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), centerOfTileYCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), 125.0 / 2 + 5.0 / 2, 125.0 / 2 + 5.0 / 2, 90, 90);
                     else
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), centerOfTileYCorrdinateInCenterPane - (125.0 / 2 + 5.0 / 2), 125.0 / 2 + 5.0 / 2, 125.0 / 2 + 5.0 / 2, 90, 90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + (125.0 / 2 + 5.0 / 2), centerOfTileYCorrdinateInCenterPane + 125 - (125.0 / 2 + 5.0 / 2), 125.0 / 2 + 5.0 / 2, 125.0 / 2 + 5.0 / 2, 180, -90);
 
                 }
 
@@ -160,16 +160,16 @@ public class DrawShape {
                 if (xCoordinate == 3) {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2, 125.0 / 2, 180, -90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2, 125.0 / 2, 90, 90);
                     else
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2, 125.0 / 2, 90, 90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane - 125.0 / 2, centerOfTileYCorrdinateInCenterPane + 125 + 125.0 / 2, 125.0 / 2, 125.0 / 2, 180, -90);
 
                 } else {
 
                     if (isEnter1ReallyEnter)
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2 + 5.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2 + 5.0 / 2, 125.0 / 2, 180, -90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2 + 5.0 / 2, centerOfTileYCorrdinateInCenterPane + 125.0 / 2, 125.0 / 2 + 5.0 / 2, 125.0 / 2, 90, 90);
                     else
-                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2 + 5.0 / 2, centerOfTileYCorrdinateInCenterPane - 125.0 / 2, 125.0 / 2 + 5.0 / 2, 125.0 / 2, 90, 90);
+                        shape = new Arc(centerOfTileXCorrdinateInCenterPane + 125.0 / 2 + 5.0 / 2, centerOfTileYCorrdinateInCenterPane + 125 - 125.0 / 2, 125.0 / 2 + 5.0 / 2, 125.0 / 2, 180, -90); //180 90 dı 270 -90 denenebilir
 
                 }
             }

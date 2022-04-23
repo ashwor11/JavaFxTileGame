@@ -28,7 +28,7 @@ public class Game extends Application {
     int level = 1;
 
 
-
+    Circle circle;
 
     GridPane gridPane;
     StackPane centerPane;
@@ -282,7 +282,7 @@ public class Game extends Application {
         Tile[] tiles = new Tile[16];
         String filename = "CSE1242_spring2022_project_level";
         File file = new File(filename + i + ".txt"); //4. deneyi deneme amaçlı
-        //File file = new File("CSE1242_spring2022_project_level4.txt");
+        //File file = new File("CSE1242_spring2022_project_level8.txt");
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
@@ -303,6 +303,9 @@ public class Game extends Application {
 
 
                 if (tileType.equals("Starter")) {
+                    circle= new Circle((50 + 125 / 2 + x*125), (125 / 2 +y*125), 15);
+                    circle.setFill(Color.ORANGE);
+                    circle.setStroke(Color.BLACK);
                     tiles[Integer.parseInt(boxNumber) - 1] = new Starter(x, y, property);
                 } else if (tileType.equals("Empty")) {  //Empty free mi yoksa none mı kontrol edip ona göre yapmak gerek
 
@@ -355,11 +358,9 @@ public class Game extends Application {
 
         Pane generalPane = new Pane();
         generalPane.getChildren().add(centerPane);
-
-        Circle circle = new Circle((50 + 125 / 2), (125 / 2), 15);
-        circle.setFill(Color.ORANGE);
-        circle.setStroke(Color.BLACK);
         generalPane.getChildren().add(circle);
+
+
 
 
         //Center design
