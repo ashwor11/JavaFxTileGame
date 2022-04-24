@@ -5,6 +5,7 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -61,6 +62,7 @@ public class Game extends Application {
             temp.setDuration(Duration.millis(1000));
             temp.setPath(shape);
             temp.setInterpolator(Interpolator.LINEAR);
+            temp.setDelay(Duration.ZERO);
 
             sequentialTransition.getChildren().add(temp);
 
@@ -181,6 +183,11 @@ public class Game extends Application {
     public void dragTile(Tile current, Tile target, Tile[] tiles) {
 
 
+        if(isSolved)
+            return;
+
+        if(current instanceof EmptyFree)
+            return;
         if (!(target instanceof EmptyFree))
             return;
         if (!((current.isMoveable) && target.isMoveable))
@@ -253,6 +260,7 @@ public class Game extends Application {
         targetTransition.setNode(target);
         targetTransition.play();
         currentTransition.play();
+
 
         targetTransition.setOnFinished(e -> {
             gridPane.getChildren().remove(target);
@@ -369,20 +377,43 @@ public class Game extends Application {
         //Bottom design
         Label movesLabel = new Label();
 
-        Button yeniLevel = new Button("Sonraki");
+        Button nextLevel = new Button("Next Level");
+        nextLevel.setOnAction(e -> {
+            if (!isSolved)
+                return;
+            startGame(primaryStage);
+            isSolved = false;
+        });
+
+        Button restart = new Button("Restart");
+        restart.setOnAction(event -> {
+            if(isSolved) {
+                level--;
+                isSolved = false;
+            }
+            startGame(primaryStage);
+        });
 
 
 
         movesLabel.setText("Moves: " + numberOfMoves); //Her hamle action sonrası bunu yazdırmayı unutma
         movesLabel.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
+
+        HBox buttons = new HBox();
+        buttons.setSpacing(20);
+        buttons.getChildren().addAll(movesLabel, restart, nextLevel);
+        buttons.setAlignment(Pos.CENTER_RIGHT);
+        buttons.setPadding(new Insets(0,0,0,380));
+
+
         Pane pane = new Pane();
         pane.getChildren().add(movesLabel);
-        pane.getChildren().add(yeniLevel);
-        yeniLevel.setVisible(true);
+        pane.getChildren().add(buttons);
 
-        yeniLevel.setOnAction(e -> {
-            startGame(primaryStage);
-        });
+
+
+
+
 
 
         //GUI DESIGN
@@ -406,9 +437,14 @@ public class Game extends Application {
 
         for (Tile tile : tiles) {
             tile.setOnMouseReleased(e -> {
+
+                if(isSolved)
+                    return;
+
                 Tile tile1 = (Tile) e.getTarget();
                 Tile tile2 = (Tile) e.getPickResult().getIntersectedNode();
                 dragTile(tile1, tile2, tiles);
+
 
                 movesLabel.setText("Moves: " + numberOfMoves);
 
