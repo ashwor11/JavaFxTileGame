@@ -3,11 +3,13 @@ import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -39,12 +41,15 @@ public class Game extends Application {
     BorderPane borderPane;
     boolean isSolved;
     private static int numberOfMoves;
+    ComboBox unlockedLevels = new ComboBox();
+
 
 
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+                unlockedLevels.setValue(level);
 
 
                 startGame(primaryStage);
@@ -258,16 +263,10 @@ public class Game extends Application {
         targetTransition.setToX(targetx - currentx);
         currentTransition.setNode(current);
         targetTransition.setNode(target);
-        targetTransition.play();
+        gridPane.getChildren().remove(target);
         currentTransition.play();
 
 
-        targetTransition.setOnFinished(e -> {
-            gridPane.getChildren().remove(target);
-            target.setTranslateX(0);
-            target.setTranslateY(0);
-            gridPane.add(target, targetXCoordinate, targetYCoordinate);
-        });
 
 
         currentTransition.setOnFinished(e -> {
@@ -275,6 +274,9 @@ public class Game extends Application {
             current.setTranslateX(0);
             current.setTranslateY(0);
             gridPane.add(current, currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
+            target.setTranslateX(0);
+            target.setTranslateY(0);
+            gridPane.add(target, targetXCoordinate, targetYCoordinate);
         });
 
 
@@ -340,10 +342,12 @@ public class Game extends Application {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
         return tiles;
     }
 
     public void startGame(Stage primaryStage){
+
         gridPane = new GridPane();
         borderPane = new BorderPane();
         numberOfMoves = 0;
@@ -378,11 +382,13 @@ public class Game extends Application {
         Label movesLabel = new Label();
 
         Button nextLevel = new Button("Next Level");
+        nextLevel.setVisible(false);
         nextLevel.setOnAction(e -> {
             if (!isSolved)
                 return;
             startGame(primaryStage);
             isSolved = false;
+            unlockedLevels.setValue(level);
         });
 
         Button restart = new Button("Restart");
@@ -392,7 +398,24 @@ public class Game extends Application {
                 isSolved = false;
             }
             startGame(primaryStage);
+            unlockedLevels.setValue(level);
         });
+
+        addLevelToComboBox();
+
+        unlockedLevels.setOnAction(e->{
+            level = unlockedLevels.getSelectionModel().getSelectedIndex()+1;
+            unlockedLevels.setValue(level);
+            startGame(primaryStage);
+        });
+
+        Label selectLevel = new Label();
+        selectLevel.setText("Select Level:");
+        HBox selectLevels = new HBox();
+        selectLevels.setSpacing(5);
+        selectLevels.getChildren().addAll(selectLevel,unlockedLevels);
+        selectLevels.setAlignment(Pos.CENTER_RIGHT);
+
 
 
 
@@ -401,9 +424,9 @@ public class Game extends Application {
 
         HBox buttons = new HBox();
         buttons.setSpacing(20);
-        buttons.getChildren().addAll(movesLabel, restart, nextLevel);
+        buttons.getChildren().addAll(movesLabel, selectLevels , restart, nextLevel);
         buttons.setAlignment(Pos.CENTER_RIGHT);
-        buttons.setPadding(new Insets(0,0,0,380));
+        buttons.setPadding(new Insets(0,0,0,280));
 
 
         Pane pane = new Pane();
@@ -457,6 +480,8 @@ public class Game extends Application {
                 if (isSolved) {
                     playAnimation(shapes,circle);
                     level++;
+                    nextLevel.setVisible(true);
+                    addLevelToComboBox();
 
 
 
@@ -503,6 +528,13 @@ public class Game extends Application {
         primaryStage.setTitle("Game");
         primaryStage.show();
 
+    }
+
+    public void addLevelToComboBox(){
+        ObservableList levels = unlockedLevels.getItems();
+        if(!levels.contains(level)){
+            unlockedLevels.getItems().add(level);
+        }
     }
 
 
