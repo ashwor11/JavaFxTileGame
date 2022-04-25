@@ -291,8 +291,8 @@ public class Game extends Application {
     public Tile[] createTiles(int i){
         Tile[] tiles = new Tile[16];
         String filename = "CSE1242_spring2022_project_level";
-        File file = new File(filename + i + ".txt"); //4. deneyi deneme amaçlı
-        //File file = new File("CSE1242_spring2022_project_level8.txt");
+       // File file = new File(filename + i + ".txt"); //4. deneyi deneme amaçlı
+        File file = new File("CSE1242_spring2022_project_level1.txt");
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
@@ -426,7 +426,7 @@ public class Game extends Application {
         buttons.setSpacing(20);
         buttons.getChildren().addAll(movesLabel, selectLevels , restart, nextLevel);
         buttons.setAlignment(Pos.CENTER_RIGHT);
-        buttons.setPadding(new Insets(0,0,0,280));
+        buttons.setPadding(new Insets(0,0,0,222));
 
 
         Pane pane = new Pane();
