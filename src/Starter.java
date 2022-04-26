@@ -16,11 +16,11 @@ public class Starter extends Tile {
 
 
         if (status.equals("Vertical")) {
-            this.setImage(new Image("file:resimler/starterdikey.png"));
+            this.setImage(new Image("file:GamePNGs/startVertical.png"));
             this.setExitCordinate(3);
         } else {
             this.setExitCordinate(4);
-            Image image = new Image("file:resimler/starteryatay.png");
+            Image image = new Image("file:GamePNGs/startHorizontal.png");
             this.setImage(image);
         }
 

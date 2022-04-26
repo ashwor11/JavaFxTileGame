@@ -291,8 +291,8 @@ public class Game extends Application {
     public Tile[] createTiles(int i){
         Tile[] tiles = new Tile[16];
         String filename = "CSE1242_spring2022_project_level";
-       // File file = new File(filename + i + ".txt"); //4. deneyi deneme amaçlı
-        File file = new File("CSE1242_spring2022_project_level1.txt");
+        File file = new File(filename + i + ".txt");
+        //File file = new File("CSE1242_spring2022_project_level6.txt"); //deney deneme amaçlı
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
@@ -313,7 +313,7 @@ public class Game extends Application {
 
 
                 if (tileType.equals("Starter")) {
-                    circle= new Circle((50 + 125 / 2 + x*125), (125 / 2 +y*125), 15);
+                    circle= new Circle((50 + 125 / 2 + x * 130), (125 / 2 + y * 130), 12);
                     circle.setFill(Color.ORANGE);
                     circle.setStroke(Color.BLACK);
                     tiles[Integer.parseInt(boxNumber) - 1] = new Starter(x, y, property);
@@ -332,8 +332,16 @@ public class Game extends Application {
                         tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property);
 
                 } else if (tileType.equals("PipeStatic")) {
-                    tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
-                } else if (tileType.equals("End")) {
+
+                    if (property.equals("00") || property.equals("01") || property.equals("10") || property.equals("11"))
+                        tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property, false);
+
+                    else
+                        tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
+                }
+
+
+                 else if (tileType.equals("End")) {
                     tiles[Integer.parseInt(boxNumber) - 1] = new End(x, y, property);
                 }
                 //Tile türü bulundu ve oluşturuldu.
@@ -348,6 +356,8 @@ public class Game extends Application {
 
     public void startGame(Stage primaryStage){
 
+        primaryStage.setResizable(false);
+
         gridPane = new GridPane();
         borderPane = new BorderPane();
         numberOfMoves = 0;
@@ -360,11 +370,12 @@ public class Game extends Application {
         }
         gridPane.setHgap(5);
         gridPane.setVgap(5);
-        gridPane.setStyle("-fx-background-color: white");  //Bunu sihay yapcaz resimler düzeldiğinde
+        gridPane.setStyle("-fx-background-color: gray; -fx-stroke: black;");  //Bunu sihay yapcaz resimler düzeldiğinde
+        //gridPane.setGridLinesVisible(true); gerek yok
 
 
         centerPane = new StackPane();
-        centerPane.setStyle("-fx-background-color: white;");
+        centerPane.setStyle("-fx-background-color: lightgray;");
         centerPane.getChildren().add(gridPane);
         centerPane.setPadding(new Insets(0, 50, 0, 50));
 
@@ -488,11 +499,11 @@ public class Game extends Application {
                 }
 
 
-                if (isSolved) {  //Burası deneme amaçlı
+                /*if (isSolved) {  //Burası yörüngeyi gösterme deneme amaçlı
                     for (int i = 0; i < shapes.size(); i++) {
                         generalPane.getChildren().add(shapes.get(i));
                     }
-                }
+                }*/
 
 
                 primaryStage.show();
@@ -517,7 +528,7 @@ public class Game extends Application {
 
 
 
-        borderPane.setStyle("-fx-background-color: white;");
+        borderPane.setStyle("-fx-background-color: lightgray;");
         borderPane.setTop(titlePane);
         borderPane.setCenter(generalPane);
         borderPane.setBottom(pane);

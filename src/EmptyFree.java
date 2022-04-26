@@ -6,6 +6,6 @@ public class EmptyFree extends Tile{
     public EmptyFree(int xCoordinate, int yCoordinate) {
         super(xCoordinate, yCoordinate);
         setMoveable(true);
-        this.setImage(new Image("file:resimler/emptyfree.png"));
+        this.setImage(new Image("file:GamePNGs/emptyFree.png"));
     }
 }

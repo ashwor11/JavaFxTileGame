@@ -14,12 +14,12 @@ public class End extends Tile {
 
         if (status.equals("Vertical")) {
 
-            this.setImage(new Image("file:resimler/enddikey.png"));
+            this.setImage(new Image("file:GamePNGs/endVertical.png"));
             this.setEnterCordinate(3);
         }
         else {
             this.setEnterCordinate(4);
-            this.setImage(new Image("file:resimler/endyatay.png"));
+            this.setImage(new Image("file:GamePNGs/endHorizontal.png"));
         }
 
         if (enterCordinate == 1) {

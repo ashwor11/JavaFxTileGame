@@ -12,7 +12,6 @@ public class CurvedPipe extends Tile{
     private Point2D enter1Point, enter2Point;
 
 
-
     public CurvedPipe(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
         status1 = status;
@@ -20,19 +19,19 @@ public class CurvedPipe extends Tile{
         if(status.equals("00")){
             enter1 = 1;
             enter2 = 4;
-            this.setImage(new Image("file:resimler/00.png"));
+            this.setImage(new Image("file:GamePNGs/curvedPipe00.png"));
         } else if (status.equals("01"))  {
             enter1 = 1;
             enter2 = 2;
-            this.setImage(new Image("file:resimler/01.png"));
+            this.setImage(new Image("file:GamePNGs/curvedPipe01.png"));
         } else if (status.equals("10"))  {
             enter1 = 4;
             enter2 = 3;
-            this.setImage(new Image("file:resimler/10.png"));
+            this.setImage(new Image("file:GamePNGs/curvedPipe10.png"));
         } else {
             enter1 = 2;
             enter2 = 3;
-            this.setImage(new Image("file:resimler/11.png"));
+            this.setImage(new Image("file:GamePNGs/curvedPipe11.png"));
         }
 
         if (enter1 == 1) {
@@ -76,6 +75,83 @@ public class CurvedPipe extends Tile{
 
 
     }
+
+
+
+    public CurvedPipe(int xCoordinate, int yCoordinate, String status, boolean gereksizParametre) {
+        super(xCoordinate, yCoordinate);
+        status1 = status;
+        setMoveable(false);
+        if(status.equals("00")){
+            enter1 = 1;
+            enter2 = 4;
+            this.setImage(new Image("file:GamePNGs/curvedPipeStatic00.png"));
+        } else if (status.equals("01"))  {
+            enter1 = 1;
+            enter2 = 2;
+            this.setImage(new Image("file:GamePNGs/curvedPipeStatic01.png"));
+        } else if (status.equals("10"))  {
+            enter1 = 4;
+            enter2 = 3;
+            this.setImage(new Image("file:GamePNGs/curvedPipeStatic10.png"));
+        } else {
+            enter1 = 2;
+            enter2 = 3;
+            this.setImage(new Image("file:GamePNGs/curvedPipeStatic11.png"));
+        }
+
+        if (enter1 == 1) {
+            points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
+        }
+        else if (enter1 == 2) {
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+        }
+        else if (enter1 == 3) {
+            points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
+            enter1Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
+        }
+        else if (enter1 == 4) {
+            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+        }
+        if (enter2 == 1) {
+            points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
+        }
+        else if (enter2 == 2) {
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+        }
+        else if (enter2 == 3) {
+            points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
+            enter2Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
+        }
+        else if (enter2 == 4) {
+            points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
+            enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+        }
+
+
+
+        shape = DrawShape.drawCurvedPipe(status, xCoordinate, yCoordinate, isEnter1ReallyEnter);
+        shape.setStrokeWidth(5);
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     public String getStatus(){

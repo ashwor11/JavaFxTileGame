@@ -21,12 +21,12 @@ public class Pipe extends Tile {
         if(status.equals("Horizontal")){
             enter1 = 4;
             enter2 = 2;
-            this.setImage(new Image("file:resimler/pipeyatay.png"));
+            this.setImage(new Image("file:GamePNGs/pipeHorizontal.png"));
         } else  {
             enter1 = 1;
             enter2 = 3;
             System.out.println(new File(".").getAbsolutePath());
-            this.setImage(new Image("file:resimler/pipedikey.png"));
+            this.setImage(new Image("file:GamePNGs/pipeVertical.png"));
         }
 
         if (enter1 == 1) {

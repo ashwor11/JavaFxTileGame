@@ -20,11 +20,11 @@ public class PipeStatic extends Tile{
         if(status.equals("Horizontal")){
             enter1 = 2;
             enter2 = 4;
-            this.setImage(new Image("file:resimler/pipestaticyatay.png"));
+            this.setImage(new Image("file:GamePNGs/pipeStaticHorizontal.png"));
         } else  {
             enter1 = 1;
             enter2 = 3;
-            this.setImage(new Image("file:resimler/pipestaticdikey.png"));
+            this.setImage(new Image("file:GamePNGs/pipeStaticVertical.png"));
         }
 
         if (enter1 == 1) {
