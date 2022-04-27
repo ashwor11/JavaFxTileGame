@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -23,6 +25,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -42,7 +45,14 @@ public class Game extends Application {
     boolean isSolved;
     private static int numberOfMoves;
     ComboBox unlockedLevels = new ComboBox();
+    Pane generalPane;
+    Media gameStart = new Media(new File("soundtrack/gameStart.mp4").toURI().toString());
+    MediaPlayer playGameStart = new MediaPlayer(gameStart);
+    Media correct = new Media(new File("soundtrack/correct.mp4").toURI().toString());
+    MediaPlayer playCorrect = new MediaPlayer(correct);
 
+    Media levelStart = new Media(new File("soundtrack/levelStart.mp4").toURI().toString());
+    MediaPlayer playLevelStart = new MediaPlayer(levelStart);
 
 
 
@@ -74,6 +84,27 @@ public class Game extends Application {
 
         }
         sequentialTransition.play();
+
+
+
+        sequentialTransition.setOnFinished(e -> {
+            Label bravo = new Label();
+            bravo.setText("Congratulations!");
+            bravo.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));;
+            bravo.setTextFill(Color.DARKBLUE);
+            bravo.setAlignment(Pos.CENTER);
+            StackPane bravoPane = new StackPane();
+            bravoPane.getChildren().add(bravo);
+
+            borderPane.setTop(bravoPane);
+
+
+            if (level == 1)
+                playGameStart.stop();
+            else
+                playLevelStart.stop();
+            playCorrect.play();
+        });
 
     }
 
@@ -356,6 +387,15 @@ public class Game extends Application {
 
     public void startGame(Stage primaryStage){
 
+        playCorrect.stop();
+
+        if (level == 1)
+             playGameStart.play();
+        else
+            playLevelStart.play();
+
+
+
         primaryStage.setResizable(false);
 
         gridPane = new GridPane();
@@ -379,7 +419,7 @@ public class Game extends Application {
         centerPane.getChildren().add(gridPane);
         centerPane.setPadding(new Insets(0, 50, 0, 50));
 
-        Pane generalPane = new Pane();
+        generalPane = new Pane();
         generalPane.getChildren().add(centerPane);
         generalPane.getChildren().add(circle);
 
@@ -471,6 +511,7 @@ public class Game extends Application {
 
         for (Tile tile : tiles) {
             tile.setOnMouseReleased(e -> {
+
 
                 if(isSolved)
                     return;
