@@ -26,36 +26,38 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game extends Application {
 
     int level = 1;
+    Tile[] tiles;
+    ArrayList<Shape> shapes;
+    boolean isGameFinished, isSolved;
+    private static int numberOfMoves;
+    SequentialTransition sequentialTransition;
 
 
+
+    //Nodes
     Circle circle;
-
     GridPane gridPane;
     StackPane centerPane;
-    Label movesLabel;
-    boolean isGameFinished;
-    Label title;
     BorderPane borderPane;
-    boolean isSolved;
-    private static int numberOfMoves;
-    ComboBox unlockedLevels = new ComboBox();
-    Pane generalPane;
+    Pane generalPane, pane;
     Scene scene;
     StackPane titlePane;
-    Pane pane;
-    HBox buttons;
-    Label selectLevel;
-    HBox selectLevels;
-    Button restart,nextLevel;
-    Label moves;
 
+    Label movesLabel, title, selectLevel;
+    HBox buttons, selectLevels;
+    Button restart,nextLevel;
+    ComboBox<Integer> unlockedLevels = new ComboBox<>();
+
+
+
+
+    //Sounds
     Media gameStart = new Media(new File("soundtrack/gameStart.mp4").toURI().toString());
     MediaPlayer playGameStart = new MediaPlayer(gameStart);
     Media correct = new Media(new File("soundtrack/correct.mp4").toURI().toString());
@@ -67,31 +69,27 @@ public class Game extends Application {
     Media dragTileSound = new Media(new File("soundtrack/dragTileSound.wav").toURI().toString());
     MediaPlayer playdragTileSound = new MediaPlayer(dragTileSound);
 
-    Tile[] tiles;
-    ArrayList<Shape> shapes;
+
 
 
 
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
                 unlockedLevels.setValue(level);
 
-
                 startGame(primaryStage);
-
-
 
         }
 
     private void playAnimation(ArrayList<Shape> shapes, Circle circle) {
-        SequentialTransition sequentialTransition = new SequentialTransition();
+        sequentialTransition = new SequentialTransition();
 
         for (Shape shape : shapes) {
             PathTransition temp = new PathTransition();
             temp.setNode(circle);
-            temp.setDuration(Duration.millis(400));
+            temp.setDuration(Duration.millis(700));
             temp.setPath(shape);
             temp.setInterpolator(Interpolator.LINEAR);
             temp.setDelay(Duration.ZERO);
@@ -107,14 +105,13 @@ public class Game extends Application {
         sequentialTransition.setOnFinished(e -> {
             Label bravo = new Label();
             bravo.setText("Congratulations!");
-            bravo.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));;
+            bravo.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
             bravo.setTextFill(Color.DARKBLUE);
             bravo.setAlignment(Pos.CENTER);
             StackPane bravoPane = new StackPane();
             bravoPane.getChildren().add(bravo);
-
             borderPane.setTop(bravoPane);
-
+            nextLevel.setVisible(true);
 
             if (level == 1)
                 playGameStart.stop();
@@ -147,16 +144,14 @@ public class Game extends Application {
          */
 
 
-        for (int i = shapes.size() - 1; i >= 0; i--) {
-            shapes.remove(i);
-        }
+        shapes.clear();
 
         Point2D currentPoint = null;
 
-        for (int i = 0; i < tiles.length; i++) {
-            if (tiles[i] instanceof Starter) {
-                shapes.add(((Starter) tiles[i]).getShape());
-                currentPoint = ((Starter) tiles[i]).getPoints().get(0);  //currentPoint starterın çıkışı olarak belirlendi
+        for (Tile tile : tiles) {
+            if (tile instanceof Starter) {
+                shapes.add(((Starter) tile).getShape());
+                currentPoint = tile.getPoints().get(0);  //currentPoint starterın çıkışı olarak belirlendi
                 break;
             }
         }
@@ -164,10 +159,10 @@ public class Game extends Application {
         for (int i = 0; i < tiles.length; i++) { //Genel loop
 
             //Oyun bitti mi kontrolü
-            for (int j = 0; j < tiles.length; j++) {
-                if (tiles[j] instanceof End) {
-                    if (((End) tiles[j]).points.get(0).equals(currentPoint)) {
-                        shapes.add(((End) tiles[j]).getShape());
+            for (Tile tile : tiles) {
+                if (tile instanceof End) {
+                    if (tile.points.get(0).equals(currentPoint)) {
+                        shapes.add(((End) tile).getShape());
                         return true; //Eğer current point end ile aynı noktadaysa oyun tamam
                     }
                 }
@@ -177,50 +172,50 @@ public class Game extends Application {
             //Eğer oyun tamamlanmadıysa bir sonraki currentnoktayı bulacağız
 
 
-            for (int j = 0; j < tiles.length; j++) {
+            for (Tile tile : tiles) {
 
-                if ((tiles[j] instanceof CurvedPipe) || (tiles[j] instanceof Pipe) || (tiles[j] instanceof PipeStatic)) {
-                    if (tiles[j].points.get(0).equals(currentPoint)) {
+                if ((tile instanceof CurvedPipe) || (tile instanceof Pipe) || (tile instanceof PipeStatic)) {
+                    if (tile.points.get(0).equals(currentPoint)) {
 
 
-                        if (tiles[j] instanceof CurvedPipe) {
-                            ((CurvedPipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
-                            ((CurvedPipe) tiles[j]).setShape(((CurvedPipe) tiles[j]).getStatus(), ((CurvedPipe) tiles[j]).getXCoordinate(), ((CurvedPipe) tiles[j]).getYCoordinate(), ((CurvedPipe) tiles[j]).isEnter1ReallyEnter());
-                            shapes.add(((CurvedPipe) tiles[j]).getShape());
+                        if (tile instanceof CurvedPipe) {
+                            ((CurvedPipe) tile).determineIsEnter1ReallyEnter(currentPoint);
+                            ((CurvedPipe) tile).setShape(((CurvedPipe) tile).getStatus(),  tile.getXCoordinate(),  tile.getYCoordinate(), ((CurvedPipe) tile).isEnter1ReallyEnter());
+                            shapes.add(((CurvedPipe) tile).getShape());
                         }
-                        if (tiles[j] instanceof Pipe) {
-                            ((Pipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
-                            ((Pipe) tiles[j]).setShape(((Pipe) tiles[j]).getStatus(), ((Pipe) tiles[j]).getXCoordinate(), ((Pipe) tiles[j]).getYCoordinate(), ((Pipe) tiles[j]).isEnter1ReallyEnter());
-                            shapes.add(((Pipe) tiles[j]).getShape());
-
-                        }
-                        if (tiles[j] instanceof PipeStatic) {
-                            ((PipeStatic) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
-                            ((PipeStatic) tiles[j]).setShape(((PipeStatic) tiles[j]).getStatus(), ((PipeStatic) tiles[j]).getXCoordinate(), ((PipeStatic) tiles[j]).getYCoordinate(), ((PipeStatic) tiles[j]).isEnter1ReallyEnter());
-                            shapes.add(((PipeStatic) tiles[j]).getShape());
-                        }
-                        currentPoint = tiles[j].points.get(1);
-
-                    } else if (tiles[j].points.get(1).equals(currentPoint)) {
-
-                        if (tiles[j] instanceof CurvedPipe) {
-                            ((CurvedPipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
-                            ((CurvedPipe) tiles[j]).setShape(((CurvedPipe) tiles[j]).getStatus(), ((CurvedPipe) tiles[j]).getXCoordinate(), ((CurvedPipe) tiles[j]).getYCoordinate(), ((CurvedPipe) tiles[j]).isEnter1ReallyEnter());
-                            shapes.add(((CurvedPipe) tiles[j]).getShape());
-                        }
-                        if (tiles[j] instanceof Pipe) {
-                            ((Pipe) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
-                            ((Pipe) tiles[j]).setShape(((Pipe) tiles[j]).getStatus(), ((Pipe) tiles[j]).getXCoordinate(), ((Pipe) tiles[j]).getYCoordinate(), ((Pipe) tiles[j]).isEnter1ReallyEnter());
-                            shapes.add(((Pipe) tiles[j]).getShape());
+                        if (tile instanceof Pipe) {
+                            ((Pipe) tile).determineIsEnter1ReallyEnter(currentPoint);
+                            ((Pipe) tile).setShape(((Pipe) tile).getStatus(),  tile.getXCoordinate(),  tile.getYCoordinate(), ((Pipe) tile).isEnter1ReallyEnter());
+                            shapes.add(((Pipe) tile).getShape());
 
                         }
-                        if (tiles[j] instanceof PipeStatic) {
-                            ((PipeStatic) tiles[j]).determineIsEnter1ReallyEnter(currentPoint);
-                            ((PipeStatic) tiles[j]).setShape(((PipeStatic) tiles[j]).getStatus(), ((PipeStatic) tiles[j]).getXCoordinate(), ((PipeStatic) tiles[j]).getYCoordinate(), ((PipeStatic) tiles[j]).isEnter1ReallyEnter());
-                            shapes.add(((PipeStatic) tiles[j]).getShape());
+                        if (tile instanceof PipeStatic) {
+                            ((PipeStatic) tile).determineIsEnter1ReallyEnter(currentPoint);
+                            ((PipeStatic) tile).setShape(((PipeStatic) tile).getStatus(),  tile.getXCoordinate(),  tile.getYCoordinate(), ((PipeStatic) tile).isEnter1ReallyEnter());
+                            shapes.add(((PipeStatic) tile).getShape());
+                        }
+                        currentPoint = tile.points.get(1);
+
+                    } else if (tile.points.get(1).equals(currentPoint)) {
+
+                        if (tile instanceof CurvedPipe) {
+                            ((CurvedPipe) tile).determineIsEnter1ReallyEnter(currentPoint);
+                            ((CurvedPipe) tile).setShape(((CurvedPipe) tile).getStatus(), tile.getXCoordinate(),  tile.getYCoordinate(), ((CurvedPipe) tile).isEnter1ReallyEnter());
+                            shapes.add(((CurvedPipe) tile).getShape());
+                        }
+                        if (tile instanceof Pipe) {
+                            ((Pipe) tile).determineIsEnter1ReallyEnter(currentPoint);
+                            ((Pipe) tile).setShape(((Pipe) tile).getStatus(), tile.getXCoordinate(),  tile.getYCoordinate(), ((Pipe) tile).isEnter1ReallyEnter());
+                            shapes.add(((Pipe) tile).getShape());
+
+                        }
+                        if (tile instanceof PipeStatic) {
+                            ((PipeStatic) tile).determineIsEnter1ReallyEnter(currentPoint);
+                            ((PipeStatic) tile).setShape(((PipeStatic) tile).getStatus(),  tile.getXCoordinate(), tile.getYCoordinate(), ((PipeStatic) tile).isEnter1ReallyEnter());
+                            shapes.add(((PipeStatic) tile).getShape());
                         }
 
-                        currentPoint = tiles[j].points.get(0);
+                        currentPoint = tile.points.get(0);
                     }
 
 
@@ -234,7 +229,7 @@ public class Game extends Application {
     }
 
     public void dragTile(Tile current, Tile target, Tile[] tiles) {
-
+        playdragTileSound.stop();
 
         if(isSolved)
             return;
@@ -249,11 +244,8 @@ public class Game extends Application {
         centerPane.layout();
         double currentx = target.getLayoutX();
         double currenty = target.getLayoutY();
-        System.out.println(currentx + " " + currenty);
         double targetx = current.getLayoutX();
         double targety = current.getLayoutY();
-        System.out.println(targetx + " " + targety);
-
         //giden yerin koordinatı
         int currentXCoordinatexCoordinate = target.getXCoordinate();
         int currentYCoordinateyCoordinate = target.getYCoordinate();
@@ -278,13 +270,13 @@ public class Game extends Application {
 
         if (current instanceof CurvedPipe) {
             playdragTileSound.play();
-            ((CurvedPipe) current).setCoordinates(currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
+            current.setCoordinates(currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
             target.setCoordinates(targetXCoordinate, targetYCoordinate);
             ((CurvedPipe) current).setShape(((CurvedPipe) current).getStatus(), currentXCoordinatexCoordinate, currentYCoordinateyCoordinate, ((CurvedPipe) current).isEnter1ReallyEnter());
             ((CurvedPipe) current).setPoints();
         } else if (current instanceof Pipe) {
             playdragTileSound.play();
-            ((Pipe) current).setCoordinates(currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
+            current.setCoordinates(currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
             target.setCoordinates(targetXCoordinate, targetYCoordinate);
             ((Pipe) current).setShape(((Pipe) current).getStatus(), currentXCoordinatexCoordinate, currentYCoordinateyCoordinate, ((Pipe) current).isEnter1ReallyEnter());
 
@@ -303,17 +295,10 @@ public class Game extends Application {
 
         TranslateTransition currentTransition = new TranslateTransition();
         currentTransition.setDuration(Duration.millis(300));
-        System.out.println(currentx);
         currentTransition.setByX(currentx - targetx);
         currentTransition.setByY(currenty - targety);
-        TranslateTransition targetTransition = new TranslateTransition();
-        targetTransition.setDuration(Duration.millis(300));
-        targetTransition.setFromX(0);
-        targetTransition.setFromY(0);
-        targetTransition.setToY(targety - currenty);
-        targetTransition.setToX(targetx - currentx);
         currentTransition.setNode(current);
-        targetTransition.setNode(target);
+
         gridPane.getChildren().remove(target);
         currentTransition.play();
 
@@ -331,19 +316,11 @@ public class Game extends Application {
             if (isSolved) {
                 playAnimation(shapes,circle);
                 level++;
-                nextLevel.setVisible(true);
                 addLevelToComboBox();
-
-
-
             }
-            playdragTileSound.stop();
 
         });
-
-
         numberOfMoves++;
-
     }
 
 
@@ -354,14 +331,13 @@ public class Game extends Application {
         tiles = new Tile[16];
         String filename = "CSE1242_spring2022_project_level";
         File file = new File(filename + i + ".txt");
-        //File file = new File("CSE1242_spring2022_project_level6.txt"); //deney deneme amaçlı
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 if (line.equals(""))
                     continue;
-                String values[] = line.split(",");
+                String[] values = line.split(",");
 
                 String boxNumber = values[0];
                 String tileType = values[1];
@@ -374,37 +350,40 @@ public class Game extends Application {
                 x = (Integer.parseInt(boxNumber) - 1) % 4;
 
 
-                if (tileType.equals("Starter")) {
-                    circle= new Circle((50 + 125 / 2 + x * 130), (125 / 2 + y * 130), 12);
-                    circle.setFill(Color.ORANGE);
-                    circle.setStroke(Color.BLACK);
-                    tiles[Integer.parseInt(boxNumber) - 1] = new Starter(x, y, property);
-                } else if (tileType.equals("Empty")) {  //Empty free mi yoksa none mı kontrol edip ona göre yapmak gerek
+                switch (tileType) {
+                    case "Starter":
+                        circle = new Circle((50 + 125.0 / 2 + x * 130), (125.0 / 2 + y * 130), 12);
+                        circle.setFill(Color.ORANGE);
+                        circle.setStroke(Color.BLACK);
+                        tiles[Integer.parseInt(boxNumber) - 1] = new Starter(x, y, property);
+                        break;
+                    case "Empty":   //Empty free mi yoksa none mı kontrol edip ona göre yapmak gerek
 
-                    if (property.equals("none"))
-                        tiles[Integer.parseInt(boxNumber) - 1] = new Empty(x, y);
-                    else
-                        tiles[Integer.parseInt(boxNumber) - 1] = new EmptyFree(x, y);
+                        if (property.equals("none"))
+                            tiles[Integer.parseInt(boxNumber) - 1] = new Empty(x, y);
+                        else
+                            tiles[Integer.parseInt(boxNumber) - 1] = new EmptyFree(x, y);
 
-                } else if (tileType.equals("Pipe")) {
+                        break;
+                    case "Pipe":
 
-                    if (property.equals("Horizontal") || property.equals("Vertical"))  //Normal pipe
-                        tiles[Integer.parseInt(boxNumber) - 1] = new Pipe(x, y, property);
-                    else  //Curved pipe
-                        tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property);
+                        if (property.equals("Horizontal") || property.equals("Vertical"))  //Normal pipe
+                            tiles[Integer.parseInt(boxNumber) - 1] = new Pipe(x, y, property);
+                        else  //Curved pipe
+                            tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property);
 
-                } else if (tileType.equals("PipeStatic")) {
+                        break;
+                    case "PipeStatic":
 
-                    if (property.equals("00") || property.equals("01") || property.equals("10") || property.equals("11"))
-                        tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property, false);
+                        if (property.equals("00") || property.equals("01") || property.equals("10") || property.equals("11"))
+                            tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property, false);
 
-                    else
-                        tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
-                }
-
-
-                 else if (tileType.equals("End")) {
-                    tiles[Integer.parseInt(boxNumber) - 1] = new End(x, y, property);
+                        else
+                            tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
+                        break;
+                    case "End":
+                        tiles[Integer.parseInt(boxNumber) - 1] = new End(x, y, property);
+                        break;
                 }
                 //Tile türü bulundu ve oluşturuldu.
 
@@ -438,6 +417,7 @@ public class Game extends Application {
             playLevelStart.play();
 
 
+        //Center design
 
         primaryStage.setResizable(false);
 
@@ -452,8 +432,7 @@ public class Game extends Application {
         }
         gridPane.setHgap(5);
         gridPane.setVgap(5);
-        gridPane.setStyle("-fx-background-color: gray; -fx-stroke: black;");  //Bunu sihay yapcaz resimler düzeldiğinde
-        //gridPane.setGridLinesVisible(true); gerek yok
+        gridPane.setStyle("-fx-background-color: gray; -fx-stroke: black;");
 
 
         centerPane = new StackPane();
@@ -466,12 +445,8 @@ public class Game extends Application {
         generalPane.getChildren().add(circle);
 
 
-
-
-        //Center design
-
-
         //Bottom design
+
         movesLabel = new Label();
 
         nextLevel = new Button("Next Level");
@@ -491,6 +466,7 @@ public class Game extends Application {
                 isSolved = false;
             }
             startGame(primaryStage);
+            sequentialTransition.stop();
             unlockedLevels.setValue(level);
         });
 
@@ -527,30 +503,7 @@ public class Game extends Application {
         pane.getChildren().add(buttons);
 
 
-
-
-
-
-
-        //GUI DESIGN
-
-
-        //Center design
-
-
-
-/*
-        Button temp = new Button("dene");  //Deney amaçlı sonra silinecek
-        temp.setOnAction(e -> {
-            // look the second variable is EmptyFree object or not
-
-            System.out.println(checkSolution(tiles));
-            dragTile(tiles[9],(EmptyFree) tiles[13]);
-            System.out.println(checkSolution(tiles));
-        });
-*/
-
-
+        // Drag tile listen
         for (Tile tile : tiles) {
             tile.setOnMouseReleased(e -> {
 
@@ -559,43 +512,22 @@ public class Game extends Application {
                     return;
 
                 Tile tile1 = (Tile) e.getTarget();
-                Tile tile2 = null;
+                Tile tile2;
                 try {
                     tile2 = (Tile) e.getPickResult().getIntersectedNode();
                 }catch(Exception ClassCastException){
-
+                    return;
                 }
 
                 dragTile(tile1, tile2, tiles);
-
-
-
-
+                
                 movesLabel.setText("Moves: " + numberOfMoves);
-
                 isSolved = checkSolution(tiles,shapes);
-
-
-                //path transition yap
-
-
-
-
-
-                /*if (isSolved) {  //Burası yörüngeyi gösterme deneme amaçlı
-                    for (int i = 0; i < shapes.size(); i++) {
-                        generalPane.getChildren().add(shapes.get(i));
-                    }
-                }*/
-
+                
 
                 primaryStage.show();
             });
         }
-
-
-        // pane.getChildren().add(temp);
-        //Bottom design end
 
 
         //Top design
@@ -606,11 +538,10 @@ public class Game extends Application {
 
         titlePane = new StackPane();
         titlePane.getChildren().add(title);
+        
+        
         //Top design end
-
-
-
-
+        
         borderPane.setStyle("-fx-background-color: lightgray;");
         borderPane.setTop(titlePane);
         borderPane.setCenter(generalPane);
@@ -625,7 +556,7 @@ public class Game extends Application {
     }
 
     public void addLevelToComboBox(){
-        ObservableList levels = unlockedLevels.getItems();
+        ObservableList<Integer> levels = unlockedLevels.getItems();
         if(!levels.contains(level)){
             unlockedLevels.getItems().add(level);
         }
