@@ -39,14 +39,23 @@ public class Game extends Application {
 
     GridPane gridPane;
     StackPane centerPane;
-
+    Label movesLabel;
     boolean isGameFinished;
-
+    Label title;
     BorderPane borderPane;
     boolean isSolved;
     private static int numberOfMoves;
     ComboBox unlockedLevels = new ComboBox();
     Pane generalPane;
+    Scene scene;
+    StackPane titlePane;
+    Pane pane;
+    HBox buttons;
+    Label selectLevel;
+    HBox selectLevels;
+    Button restart,nextLevel;
+    Label moves;
+
     Media gameStart = new Media(new File("soundtrack/gameStart.mp4").toURI().toString());
     MediaPlayer playGameStart = new MediaPlayer(gameStart);
     Media correct = new Media(new File("soundtrack/correct.mp4").toURI().toString());
@@ -57,6 +66,10 @@ public class Game extends Application {
 
     Media dragTileSound = new Media(new File("soundtrack/dragTileSound.wav").toURI().toString());
     MediaPlayer playdragTileSound = new MediaPlayer(dragTileSound);
+
+    Tile[] tiles;
+    ArrayList<Shape> shapes;
+
 
 
 
@@ -78,7 +91,7 @@ public class Game extends Application {
         for (Shape shape : shapes) {
             PathTransition temp = new PathTransition();
             temp.setNode(circle);
-            temp.setDuration(Duration.millis(1000));
+            temp.setDuration(Duration.millis(400));
             temp.setPath(shape);
             temp.setInterpolator(Interpolator.LINEAR);
             temp.setDelay(Duration.ZERO);
@@ -289,12 +302,12 @@ public class Game extends Application {
 
 
         TranslateTransition currentTransition = new TranslateTransition();
-        currentTransition.setDuration(Duration.millis(400));
+        currentTransition.setDuration(Duration.millis(300));
         System.out.println(currentx);
         currentTransition.setByX(currentx - targetx);
         currentTransition.setByY(currenty - targety);
         TranslateTransition targetTransition = new TranslateTransition();
-        targetTransition.setDuration(Duration.millis(400));
+        targetTransition.setDuration(Duration.millis(300));
         targetTransition.setFromX(0);
         targetTransition.setFromY(0);
         targetTransition.setToY(targety - currenty);
@@ -315,7 +328,17 @@ public class Game extends Application {
             target.setTranslateX(0);
             target.setTranslateY(0);
             gridPane.add(target, targetXCoordinate, targetYCoordinate);
+            if (isSolved) {
+                playAnimation(shapes,circle);
+                level++;
+                nextLevel.setVisible(true);
+                addLevelToComboBox();
+
+
+
+            }
             playdragTileSound.stop();
+
         });
 
 
@@ -327,11 +350,11 @@ public class Game extends Application {
 
 
 
-    public Tile[] createTiles(int i){
-        Tile[] tiles = new Tile[16];
+    public void createTiles(int i){
+        tiles = new Tile[16];
         String filename = "CSE1242_spring2022_project_level";
         File file = new File(filename + i + ".txt");
-        //File file = new File("CSE1242_spring2022_project_level10.txt"); //deney deneme amaçlı
+        //File file = new File("CSE1242_spring2022_project_level6.txt"); //deney deneme amaçlı
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
@@ -390,12 +413,12 @@ public class Game extends Application {
             isGameFinished = true;
         }
 
-        return tiles;
+
     }
 
     public void startGame(Stage primaryStage){
 
-        Tile[] tiles = createTiles(level);
+        createTiles(level);
 
 
         if (isGameFinished){
@@ -421,7 +444,7 @@ public class Game extends Application {
         gridPane = new GridPane();
         borderPane = new BorderPane();
         numberOfMoves = 0;
-        ArrayList<Shape> shapes = new ArrayList<>();
+        shapes = new ArrayList<>();
 
         for (Tile tile : tiles) {
             gridPane.add(tile, tile.getXCoordinate(), tile.getYCoordinate());
@@ -449,9 +472,9 @@ public class Game extends Application {
 
 
         //Bottom design
-        Label movesLabel = new Label();
+        movesLabel = new Label();
 
-        Button nextLevel = new Button("Next Level");
+        nextLevel = new Button("Next Level");
         nextLevel.setVisible(false);
         nextLevel.setOnAction(e -> {
             if (!isSolved)
@@ -461,7 +484,7 @@ public class Game extends Application {
             unlockedLevels.setValue(level);
         });
 
-        Button restart = new Button("Restart");
+        restart = new Button("Restart");
         restart.setOnAction(event -> {
             if(isSolved) {
                 level--;
@@ -479,9 +502,9 @@ public class Game extends Application {
             startGame(primaryStage);
         });
 
-        Label selectLevel = new Label();
+        selectLevel = new Label();
         selectLevel.setText("Select Level:");
-        HBox selectLevels = new HBox();
+        selectLevels = new HBox();
         selectLevels.setSpacing(5);
         selectLevels.getChildren().addAll(selectLevel,unlockedLevels);
         selectLevels.setAlignment(Pos.CENTER_RIGHT);
@@ -492,14 +515,14 @@ public class Game extends Application {
         movesLabel.setText("Moves: " + numberOfMoves); //Her hamle action sonrası bunu yazdırmayı unutma
         movesLabel.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
 
-        HBox buttons = new HBox();
+        buttons = new HBox();
         buttons.setSpacing(20);
         buttons.getChildren().addAll(movesLabel, selectLevels , restart, nextLevel);
         buttons.setAlignment(Pos.CENTER_RIGHT);
         buttons.setPadding(new Insets(0,0,0,222));
 
 
-        Pane pane = new Pane();
+        pane = new Pane();
         pane.getChildren().add(movesLabel);
         pane.getChildren().add(buttons);
 
@@ -546,6 +569,8 @@ public class Game extends Application {
                 dragTile(tile1, tile2, tiles);
 
 
+
+
                 movesLabel.setText("Moves: " + numberOfMoves);
 
                 isSolved = checkSolution(tiles,shapes);
@@ -554,15 +579,7 @@ public class Game extends Application {
                 //path transition yap
 
 
-                if (isSolved) {
-                    playAnimation(shapes,circle);
-                    level++;
-                    nextLevel.setVisible(true);
-                    addLevelToComboBox();
 
-
-
-                }
 
 
                 /*if (isSolved) {  //Burası yörüngeyi gösterme deneme amaçlı
@@ -582,12 +599,12 @@ public class Game extends Application {
 
 
         //Top design
-        Label title = new Label();
+        title = new Label();
         title.setText("GameName");
         title.setTextFill(Color.DARKBLUE);
         title.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
 
-        StackPane titlePane = new StackPane();
+        titlePane = new StackPane();
         titlePane.getChildren().add(title);
         //Top design end
 
@@ -600,7 +617,7 @@ public class Game extends Application {
         borderPane.setBottom(pane);
 
 
-        Scene scene = new Scene(borderPane, 600, 600); //kutular 500*500  + sağdan ve soldan 50 piksel
+        scene = new Scene(borderPane, 600, 600); //kutular 500*500  + sağdan ve soldan 50 piksel
         primaryStage.setScene(scene);
         primaryStage.setTitle("Game");
         primaryStage.show();
