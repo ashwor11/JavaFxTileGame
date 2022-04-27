@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -39,7 +40,7 @@ public class Game extends Application {
     GridPane gridPane;
     StackPane centerPane;
 
-    boolean levelFinished;
+    boolean isGameFinished;
 
     BorderPane borderPane;
     boolean isSolved;
@@ -53,6 +54,9 @@ public class Game extends Application {
 
     Media levelStart = new Media(new File("soundtrack/levelStart.mp4").toURI().toString());
     MediaPlayer playLevelStart = new MediaPlayer(levelStart);
+
+    Media dragTileSound = new Media(new File("soundtrack/dragTileSound.wav").toURI().toString());
+    MediaPlayer playdragTileSound = new MediaPlayer(dragTileSound);
 
 
 
@@ -260,16 +264,19 @@ public class Game extends Application {
         gridPane.getChildren().remove(target);
 
         if (current instanceof CurvedPipe) {
+            playdragTileSound.play();
             ((CurvedPipe) current).setCoordinates(currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
             target.setCoordinates(targetXCoordinate, targetYCoordinate);
             ((CurvedPipe) current).setShape(((CurvedPipe) current).getStatus(), currentXCoordinatexCoordinate, currentYCoordinateyCoordinate, ((CurvedPipe) current).isEnter1ReallyEnter());
             ((CurvedPipe) current).setPoints();
         } else if (current instanceof Pipe) {
+            playdragTileSound.play();
             ((Pipe) current).setCoordinates(currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
             target.setCoordinates(targetXCoordinate, targetYCoordinate);
             ((Pipe) current).setShape(((Pipe) current).getStatus(), currentXCoordinatexCoordinate, currentYCoordinateyCoordinate, ((Pipe) current).isEnter1ReallyEnter());
 
         } else {
+            playdragTileSound.play();
             current.setCoordinates(currentXCoordinatexCoordinate, currentYCoordinateyCoordinate);
             target.setCoordinates(targetXCoordinate, targetYCoordinate);
         }
@@ -308,6 +315,7 @@ public class Game extends Application {
             target.setTranslateX(0);
             target.setTranslateY(0);
             gridPane.add(target, targetXCoordinate, targetYCoordinate);
+            playdragTileSound.stop();
         });
 
 
@@ -323,7 +331,7 @@ public class Game extends Application {
         Tile[] tiles = new Tile[16];
         String filename = "CSE1242_spring2022_project_level";
         File file = new File(filename + i + ".txt");
-        //File file = new File("CSE1242_spring2022_project_level6.txt"); //deney deneme amaçlı
+        //File file = new File("CSE1242_spring2022_project_level10.txt"); //deney deneme amaçlı
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
@@ -379,13 +387,25 @@ public class Game extends Application {
 
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            isGameFinished = true;
         }
 
         return tiles;
     }
 
     public void startGame(Stage primaryStage){
+
+        Tile[] tiles = createTiles(level);
+
+
+        if (isGameFinished){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "You won the game");
+            level--;
+            unlockedLevels.getItems().remove(level);
+            alert.show();
+            return;
+
+        }
 
         playCorrect.stop();
 
@@ -401,7 +421,6 @@ public class Game extends Application {
         gridPane = new GridPane();
         borderPane = new BorderPane();
         numberOfMoves = 0;
-        Tile[] tiles = createTiles(level);
         ArrayList<Shape> shapes = new ArrayList<>();
 
         for (Tile tile : tiles) {
@@ -517,7 +536,13 @@ public class Game extends Application {
                     return;
 
                 Tile tile1 = (Tile) e.getTarget();
-                Tile tile2 = (Tile) e.getPickResult().getIntersectedNode();
+                Tile tile2 = null;
+                try {
+                    tile2 = (Tile) e.getPickResult().getIntersectedNode();
+                }catch(Exception ClassCastException){
+
+                }
+
                 dragTile(tile1, tile2, tiles);
 
 
