@@ -6,7 +6,7 @@ import javafx.scene.shape.Line;
 public class CurvedPipe extends Tile{
     private int enter1;
     private int enter2;
-    private String status1;
+    private String status;
     private boolean isEnter1ReallyEnter;
     private Arc shape;
     private Point2D enter1Point, enter2Point;
@@ -14,7 +14,7 @@ public class CurvedPipe extends Tile{
 
     public CurvedPipe(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
-        status1 = status;
+        this.status = status;
         setMoveable(true);
         if(status.equals("00")){
             enter1 = 1;
@@ -78,9 +78,9 @@ public class CurvedPipe extends Tile{
 
 
 
-    public CurvedPipe(int xCoordinate, int yCoordinate, String status, boolean gereksizParametre) {
+    public CurvedPipe(int xCoordinate, int yCoordinate, String status, boolean unnecessaryParam) {
         super(xCoordinate, yCoordinate);
-        status1 = status;
+        this.status = status;
         setMoveable(false);
         if(status.equals("00")){
             enter1 = 1;
@@ -155,7 +155,7 @@ public class CurvedPipe extends Tile{
 
 
     public String getStatus(){
-        return this.status1;
+        return this.status;
     }
     public void setCoordinates(int x, int y){
         this.xCoordinate = x;
@@ -243,12 +243,10 @@ public class CurvedPipe extends Tile{
         this.enter2 = enter2;
     }
 
-    public String getStatus1() {
-        return status1;
-    }
 
-    public void setStatus1(String status1) {
-        this.status1 = status1;
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public boolean isEnter1ReallyEnter() {

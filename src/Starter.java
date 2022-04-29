@@ -4,7 +4,7 @@ import javafx.scene.shape.Line;
 
 public class Starter extends Tile {
 
-    int exitCoordinate;
+    private int exitCoordinate;
     private Line shape;
 
 
