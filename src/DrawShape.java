@@ -180,10 +180,6 @@ public class DrawShape {
     return shape;
     }
 
-
-
-
-
     public static Line drawEnd(String status, int xCoordinate, int yCoordinate, int enterCordinate) {
 
         Line shape = new Line();
@@ -238,8 +234,7 @@ public class DrawShape {
         return shape;
     }
 
-
-
+    
     public static Line drawPipe(String status, int xCoordinate, int yCoordinate, boolean isEnter1ReallyEnter) {
 
         Line shape = new Line();

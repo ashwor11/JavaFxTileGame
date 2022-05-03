@@ -38,7 +38,6 @@ public class Starter extends Tile {
             points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
         }
 
-        //Starterın çıkışı point olarak eklendi
 
 
         shape = DrawShape.drawStarter(status, xCoordinate, yCoordinate, exitCoordinate);

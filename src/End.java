@@ -26,20 +26,14 @@ public class End extends Tile {
             points.add(new Point2D(getXCoordinate() , getYCoordinate() - 0.5));
         }
         else if (enterCordinate == 2) {
-            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate() ));   // 1 sesim geliyor mu yukarı bakmıyor muydu yukarı 0.5 olmaz mı aynen ortası 0,0 ise yukarsısı -0.
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate() ));
         }
         else if (enterCordinate == 3) {
-            points.add(new Point2D(getXCoordinate()  , getYCoordinate() + 0.5)); //bu artı
+            points.add(new Point2D(getXCoordinate()  , getYCoordinate() + 0.5));
         }
         else if (enterCordinate == 4) {
             points.add(new Point2D(getXCoordinate() -0.5, getYCoordinate()));
         }
-
-
-        //End'in girişi point olarak eklendi
-
-
-
         shape = DrawShape.drawEnd(status, xCoordinate, yCoordinate, enterCordinate);
         shape.setStrokeWidth(5);
 
@@ -53,10 +47,10 @@ public class End extends Tile {
             points.add(new Point2D(getXCoordinate() , getYCoordinate() - 0.5));
         }
         else if (enterCordinate == 2) {
-            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate() ));   // 1 sesim geliyor mu yukarı bakmıyor muydu yukarı 0.5 olmaz mı aynen ortası 0,0 ise yukarsısı -0.
+            points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate() ));
         }
         else if (enterCordinate == 3) {
-            points.add(new Point2D(getXCoordinate()  , getYCoordinate() + 0.5)); //bu artı
+            points.add(new Point2D(getXCoordinate()  , getYCoordinate() + 0.5));
         }
         else if (enterCordinate == 4) {
             points.add(new Point2D(getXCoordinate() -0.5, getYCoordinate()));

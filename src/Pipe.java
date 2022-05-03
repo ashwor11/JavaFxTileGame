@@ -9,8 +9,8 @@ public class Pipe extends Tile {
     private int enter2;
     private String status;
     private Line shape;
-    private boolean isEnter1ReallyEnter;  //Solution ı bulurken bunu belirlemek zorundayız. Animasyon için gerekli
-    private Point2D enter1Point;
+    private boolean isEnter1ReallyEnter;
+    private Point2D enterPoint;
 
     public Pipe(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
@@ -31,19 +31,19 @@ public class Pipe extends Tile {
 
         if (enter1 == 1) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
-            enter1Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
+            enterPoint = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter1 == 2) {
             points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
-            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+            enterPoint = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
         else if (enter1 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
-            enter1Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
+            enterPoint = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter1 == 4) {
             points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
-            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+            enterPoint = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
 
         if (enter2 == 1) {
@@ -76,19 +76,19 @@ public class Pipe extends Tile {
         points.clear();
         if (enter1 == 1) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate()-0.5));
-            enter1Point = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
+            enterPoint = new Point2D(getXCoordinate(), getYCoordinate()-0.5);
         }
         else if (enter1 == 2) {
             points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
-            enter1Point = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
+            enterPoint = new Point2D(getXCoordinate() + 0.5, getYCoordinate());
         }
         else if (enter1 == 3) {
             points.add(new Point2D(getXCoordinate(), getYCoordinate() + 0.5));
-            enter1Point = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
+            enterPoint = new Point2D(getXCoordinate(), getYCoordinate() + 0.5);
         }
         else if (enter1 == 4) {
             points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
-            enter1Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
+            enterPoint = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
 
         if (enter2 == 1) {
@@ -150,7 +150,7 @@ public class Pipe extends Tile {
 
     public void determineIsEnter1ReallyEnter(Point2D point) {
 
-        if (enter1Point.equals(point))
+        if (enterPoint.equals(point))
             isEnter1ReallyEnter = true;
         else
             isEnter1ReallyEnter = false;

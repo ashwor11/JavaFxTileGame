@@ -112,6 +112,8 @@ public class Game extends Application {
             bravoPane.getChildren().add(bravo);
             borderPane.setTop(bravoPane);
             nextLevel.setVisible(true);
+            level++;
+            addLevelToComboBox();
 
             if (level == 1)
                 playGameStart.stop();
@@ -313,11 +315,9 @@ public class Game extends Application {
             target.setTranslateX(0);
             target.setTranslateY(0);
             gridPane.add(target, targetXCoordinate, targetYCoordinate);
-            if (isSolved) {
+            if (isSolved)
                 playAnimation(shapes,circle);
-                level++;
-                addLevelToComboBox();
-            }
+
 
         });
         numberOfMoves++;
@@ -464,9 +464,10 @@ public class Game extends Application {
             if(isSolved) {
                 level--;
                 isSolved = false;
+                sequentialTransition.stop();
             }
             startGame(primaryStage);
-            sequentialTransition.stop();
+
             unlockedLevels.setValue(level);
         });
 
@@ -505,6 +506,7 @@ public class Game extends Application {
 
         // Drag tile listen
         for (Tile tile : tiles) {
+
             tile.setOnMouseReleased(e -> {
 
 

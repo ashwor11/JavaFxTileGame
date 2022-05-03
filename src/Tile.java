@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 
 
-public class Tile extends ImageView {
+public abstract class Tile extends ImageView {
     protected int xCoordinate;
     protected int yCoordinate;
 
