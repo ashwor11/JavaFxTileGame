@@ -5,8 +5,8 @@
 5,Pipe,Vertical
 6,Empty,none
 7,Empty,none
-8,Empty,none
-9,Empty,none
+8,Pipe,11
+9,Pipe,01
 10,Pipe,Horizontal
 11,Starter,Horizontal
 12,Empty,none
