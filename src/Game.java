@@ -320,7 +320,10 @@ public class Game extends Application {
 
                         break;
                     case "PipeStatic":
-                            tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
+                            if(property.equals("Horizontal") || property.equals("Vertical"))
+                             tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
+                            else
+                                tiles[Integer.parseInt(boxNumber) - 1] = new CurvedPipe(x, y, property, false);
                         break;
                     case "End":
                         tiles[Integer.parseInt(boxNumber) - 1] = new End(x, y, property);
@@ -555,7 +558,9 @@ public class Game extends Application {
         }
         level++;
         //Start animation
+
         sequentialTransition.play();
+
 
 
         //When animation is done some changes will be made
@@ -570,6 +575,7 @@ public class Game extends Application {
             borderPane.setTop(bravoPane);
             nextLevel.setVisible(true);
             addLevelToComboBox();
+            
 
             if (level == 1)
                 playGameStart.stop();
