@@ -224,6 +224,7 @@ public class Game extends Application {
                 try {
                     //Get the tile mouse released
                     tile2 = (Tile) e.getPickResult().getIntersectedNode();
+
                     //If mouse released somewhere is not a Tile, Console should not print anything
                 }catch(Exception ClassCastException){
                     return;
@@ -319,7 +320,6 @@ public class Game extends Application {
 
                         break;
                     case "PipeStatic":
-
                             tiles[Integer.parseInt(boxNumber) - 1] = new PipeStatic(x, y, property);
                         break;
                     case "End":
@@ -338,7 +338,7 @@ public class Game extends Application {
     }
 
     //Drag Tile Animation
-    private void dragTile(Tile pressed, Tile released, Tile[] tiles) {
+    private void dragTile(Tile pressedTile, Tile releasedTile, Tile[] tiles) {
         //If there is any DragTileSound playing stopping it. Can be cause to a bug
         playDragTileSound.stop();
 
@@ -347,93 +347,92 @@ public class Game extends Application {
             return;
 
         //If the tile mouse pressed is an instance of Empty Free return. Because the pressed tile must not be  EmptyFree
-        if(pressed instanceof EmptyFree)
+        if(pressedTile instanceof EmptyFree)
             return;
         //If the tile mouse released is not an instance of Empty Free return. Because the released tile must be  EmptyFree
-        if (!(released instanceof EmptyFree))
+        if (!(releasedTile instanceof EmptyFree))
             return;
         //If pressed or released tiles' isMoveable false return. Because they must be true to move.
-        if (!((pressed.isMoveable) && released.isMoveable))
+        if (!((pressedTile.isMoveable) && releasedTile.isMoveable))
             return;
 
         centerPane.layout();
-        //Getting coordinates the tiles to help when changing their places. These are pixels.
-        double pressedX = released.getLayoutX();
-        double pressedY = released.getLayoutY();
-        double releasedX = pressed.getLayoutX();
-        double releasedY = pressed.getLayoutY();
 
+        //Getting coordinates the tiles to help when changing their places. These are pixels.
+        double pressedTileLayoutX = releasedTile.getLayoutX();
+        double pressedTileLayoutY = releasedTile.getLayoutY();
+        double releasedTileLayoutX = pressedTile.getLayoutX();
+        double releasedTileLayoutY = pressedTile.getLayoutY();
         //new coordinates of pressed at gridPane. Just integers.
-        int pressedNewXCoordinate = released.getXCoordinate();
-        int pressedNewYCoordinate = released.getYCoordinate();
+        int pressedTileNewX = releasedTile.getXCoordinate();
+        int pressedTileNewY = releasedTile.getYCoordinate();
 
         //new coordinates of released at gridPane. Just integers.
-        int releasedNewXCoordinate = pressed.getXCoordinate();
-        int releasedNewYCoordinate = pressed.getYCoordinate();
+        int releasedTileNewX = pressedTile.getXCoordinate();
+        int releasedTileNewY = pressedTile.getYCoordinate();
 
         //looking for if the tiles that are attached. If they are return
-        if (!(pressedNewXCoordinate - releasedNewXCoordinate == 0 && Math.abs(releasedNewYCoordinate - releasedNewYCoordinate) == 1) && !(Math.abs(pressedNewXCoordinate - releasedNewXCoordinate) == 1 && releasedNewYCoordinate - releasedNewYCoordinate == 0))
+        if (!(pressedTileNewX - releasedTileNewX == 0 && Math.abs(pressedTileNewY - releasedTileNewY) == 1) && !(Math.abs(pressedTileNewX - releasedTileNewX) == 1 && pressedTileNewY - releasedTileNewY == 0))
             return;
 
 
         //y = (Integer.parseInt(boxNumber)-1) /4;
         // Calculating the positions at gridPane
-        int currentNewMatrixIndex = releasedNewYCoordinate * 4 + pressedNewXCoordinate;
-        int targetNewMatrixIndex = releasedNewYCoordinate * 4 + releasedNewXCoordinate;
+        int pressedTileNewMatrixIndex = pressedTileNewY * 4 + pressedTileNewX;
+        int releasedTileNewMatrixIndex = releasedTileNewY * 4 + releasedTileNewX;
 
-        //removing tiles for adding later on
-        gridPane.getChildren().remove(pressed);
-        gridPane.getChildren().remove(released);
+
+        gridPane.getChildren().remove(pressedTile);
+        gridPane.getChildren().remove(releasedTile);
 
         //Creating new Tiles with new coordinates.
-        if (pressed instanceof CurvedPipe) {
+        if (pressedTile instanceof CurvedPipe) {
             playDragTileSound.play();
-            pressed.setCoordinates(pressedNewXCoordinate, releasedNewYCoordinate);
-            released.setCoordinates(releasedNewXCoordinate, releasedNewYCoordinate);
-            ((CurvedPipe) pressed).setShape(((CurvedPipe) pressed).getStatus(), pressedNewXCoordinate, releasedNewYCoordinate, ((CurvedPipe) pressed).isEnter1ReallyEnter());
-            ((CurvedPipe) pressed).setPoints();
-        } else if (pressed instanceof Pipe) {
+            pressedTile.setCoordinates(pressedTileNewX, pressedTileNewY);
+            releasedTile.setCoordinates(releasedTileNewX, releasedTileNewY);
+            ((CurvedPipe) pressedTile).setShape(((CurvedPipe) pressedTile).getStatus(), pressedTileNewX, pressedTileNewY, ((CurvedPipe) pressedTile).isEnter1ReallyEnter());
+            ((CurvedPipe) pressedTile).setPoints();
+        } else if (pressedTile instanceof Pipe) {
             playDragTileSound.play();
-            pressed.setCoordinates(pressedNewXCoordinate, releasedNewYCoordinate);
-            released.setCoordinates(releasedNewXCoordinate, releasedNewYCoordinate);
-            ((Pipe) pressed).setShape(((Pipe) pressed).getStatus(), pressedNewXCoordinate, releasedNewYCoordinate, ((Pipe) pressed).isEnter1ReallyEnter());
+            pressedTile.setCoordinates(pressedTileNewX, pressedTileNewY);
+            releasedTile.setCoordinates(releasedTileNewX, releasedTileNewY);
+            ((Pipe) pressedTile).setShape(((Pipe) pressedTile).getStatus(), pressedTileNewX, pressedTileNewY, ((Pipe) pressedTile).isEnter1ReallyEnter());
 
         } else {
             playDragTileSound.play();
-            pressed.setCoordinates(pressedNewXCoordinate, releasedNewYCoordinate);
-            released.setCoordinates(releasedNewXCoordinate, releasedNewYCoordinate);
+            pressedTile.setCoordinates(pressedTileNewX, pressedTileNewY);
+            releasedTile.setCoordinates(releasedTileNewX, releasedTileNewY);
         }
-        //Changing tiles places in tiles array
-        tiles[currentNewMatrixIndex] = pressed;
-        tiles[targetNewMatrixIndex] = released;
 
-        //Adding new tiles to gridPane
-        gridPane.add(pressed, releasedNewXCoordinate, releasedNewYCoordinate);
-        gridPane.add(released, pressedNewXCoordinate, releasedNewYCoordinate);
+        //Changing tiles places in tiles array
+        tiles[pressedTileNewMatrixIndex] = pressedTile;
+        tiles[releasedTileNewMatrixIndex] = releasedTile;
+
+        //Adding new pressed tile to gridPane
+        gridPane.add(pressedTile, releasedTileNewX, releasedTileNewY);
 
         //Creating a TranslateTransition for pressed Tile
         //Not creating for released because it should be seen as just moving the pressed Tile
-        TranslateTransition pressedTransition = new TranslateTransition();
-        pressedTransition.setDuration(Duration.millis(300));
-        pressedTransition.setByX(pressedX - releasedX);
-        pressedTransition.setByY(pressedY - releasedY);
-        pressedTransition.setNode(pressed);
+        TranslateTransition pressedTileTransition = new TranslateTransition();
+        pressedTileTransition.setDuration(Duration.millis(300));
+        pressedTileTransition.setByX(pressedTileLayoutX - releasedTileLayoutX);
+        pressedTileTransition.setByY(pressedTileLayoutY - releasedTileLayoutY);
+        pressedTileTransition.setNode(pressedTile);
 
-        //A small trick to show animation beatifully
-        gridPane.getChildren().remove(released);
-        pressedTransition.play();
 
+        pressedTileTransition.play();
 
 
 
-        pressedTransition.setOnFinished(e -> {
-            gridPane.getChildren().remove(pressed);
-            pressed.setTranslateX(0);
-            pressed.setTranslateY(0);
-            gridPane.add(pressed, pressedNewXCoordinate, releasedNewYCoordinate);
-            released.setTranslateX(0);
-            released.setTranslateY(0);
-            gridPane.add(released, releasedNewXCoordinate, releasedNewYCoordinate);
+
+        pressedTileTransition.setOnFinished(e -> {
+            gridPane.getChildren().remove(pressedTile);
+            pressedTile.setTranslateX(0);
+            pressedTile.setTranslateY(0);
+            gridPane.add(pressedTile, pressedTileNewX, pressedTileNewY);
+            releasedTile.setTranslateX(0);
+            releasedTile.setTranslateY(0);
+            gridPane.add(releasedTile, releasedTileNewX, releasedTileNewY);
             //if isSolved true play circle animation
             if (isSolved)
                 playAnimation(shapes,circle);
