@@ -89,6 +89,7 @@ public class Game extends Application {
     @Override
     public void start(Stage primaryStage) {
                 unlockedLevels.setValue(level);
+                isSolved = false;
 
                 startGame(primaryStage);
 
@@ -558,7 +559,7 @@ public class Game extends Application {
         }
         level++;
         //Start animation
-
+        unlockedLevels.setDisable(true);
         sequentialTransition.play();
 
 
@@ -575,7 +576,8 @@ public class Game extends Application {
             borderPane.setTop(bravoPane);
             nextLevel.setVisible(true);
             addLevelToComboBox();
-            
+            unlockedLevels.setDisable(false);
+
 
             if (level == 1)
                 playGameStart.stop();
