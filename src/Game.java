@@ -97,6 +97,7 @@ public class Game extends Application {
 
     //Master method for the game all thw works done inside here
     private void startGame(Stage primaryStage){
+        isSolved = false;
 
         isSolved = false;
 
