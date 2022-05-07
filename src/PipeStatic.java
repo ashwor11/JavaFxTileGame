@@ -10,7 +10,7 @@ public class PipeStatic extends Tile{
     private boolean isEnter1ReallyEnter;
     private Point2D enterPoint;
 
-
+    //Constructor -> Setting enter1, enter2, shape, isMoveable and image
     public PipeStatic(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
         this.status = status;
@@ -56,18 +56,13 @@ public class PipeStatic extends Tile{
             points.add(new Point2D(getXCoordinate() + 0.5, getYCoordinate()));
         }
 
-
-
-        //PipeStaic'in iki girişi de point olarak eklendi
-
-
-
-
         shape = DrawShape.drawPipe(status, xCoordinate, yCoordinate, isEnter1ReallyEnter);
         shape.setStrokeWidth(5);
 
     }
 
+    //Setters and getters
+    // Setting coordinates. points are set in this setter method
     public void setCoordinates(int x, int y){
         this.xCoordinate = x;
         this.yCoordinate = y;

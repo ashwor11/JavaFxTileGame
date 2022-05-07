@@ -12,6 +12,7 @@ public class CurvedPipe extends Tile{
     private Point2D enter1Point, enter2Point;
 
 
+    //Constructor -> Setting enter1, enter2, shape, isMoveable and image
     public CurvedPipe(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
         this.status = status;
@@ -67,17 +68,14 @@ public class CurvedPipe extends Tile{
             enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
 
-
-
+        // Drawing shape for animation
         shape = DrawShape.drawCurvedPipe(status, xCoordinate, yCoordinate, isEnter1ReallyEnter);
         shape.setStrokeWidth(5);
 
-
-
     }
 
-
-
+    //Constructor -> Setting images and enters
+    //UnnecessaryParam is required because two constructor is required
     public CurvedPipe(int xCoordinate, int yCoordinate, String status, boolean unnecessaryParam) {
         super(xCoordinate, yCoordinate);
         this.status = status;
@@ -133,30 +131,16 @@ public class CurvedPipe extends Tile{
             enter2Point = new Point2D(getXCoordinate() - 0.5, getYCoordinate());
         }
 
-
-
         shape = DrawShape.drawCurvedPipe(status, xCoordinate, yCoordinate, isEnter1ReallyEnter);
         shape.setStrokeWidth(5);
 
-
-
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    //Getter and setters
     public String getStatus(){
         return this.status;
     }
+    // Setting coordinates. points are set in this setter method
     public void setCoordinates(int x, int y){
         this.xCoordinate = x;
         this.yCoordinate = y;

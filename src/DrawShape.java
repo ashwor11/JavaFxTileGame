@@ -4,7 +4,7 @@ import javafx.scene.shape.Shape;
 
 public class DrawShape {
 
-
+    //Drawing shapes for all the pipes
     public static Arc drawCurvedPipe(String status, int xCoordinate, int yCoordinate, boolean isEnter1ReallyEnter) {
 
         double centerOfTileXCorrdinateInCenterPane = (125.0/2 + 50 + xCoordinate * 130); //50 is the inset from left

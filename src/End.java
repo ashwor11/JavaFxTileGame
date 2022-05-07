@@ -6,7 +6,7 @@ public class End extends Tile {
 
     private int enterCordinate;
     private Line shape;
-
+    //Constructor --> Setting enterCoordinate, isMoveable and image
     public End(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate,yCoordinate);
 
@@ -39,6 +39,8 @@ public class End extends Tile {
 
     }
 
+    //Setters and getters
+    // Setting coordinates. points are set in this setter method
     public void setCoordinates(int x, int y){
         this.xCoordinate = x;
         this.yCoordinate = y;

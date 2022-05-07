@@ -8,7 +8,7 @@ public class Starter extends Tile {
     private Line shape;
 
 
-
+    //Constructor -> Setting exitCoordinate, shape, isMoveable and image
     public Starter(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
 
@@ -39,11 +39,12 @@ public class Starter extends Tile {
         }
 
 
-
         shape = DrawShape.drawStarter(status, xCoordinate, yCoordinate, exitCoordinate);
         shape.setStrokeWidth(5);
     }
 
+    //Setters and getters
+    // Setting coordinates. points are set in this setter method
     public int getExitCoordinate() {
         return exitCoordinate;
     }

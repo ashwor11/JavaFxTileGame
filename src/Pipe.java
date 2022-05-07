@@ -12,6 +12,7 @@ public class Pipe extends Tile {
     private boolean isEnter1ReallyEnter;
     private Point2D enterPoint;
 
+    //Constructor -> Setting enter1, enter2, shape, isMoveable and image
     public Pipe(int xCoordinate, int yCoordinate, String status) {
         super(xCoordinate, yCoordinate);
 
@@ -59,17 +60,13 @@ public class Pipe extends Tile {
             points.add(new Point2D(getXCoordinate() - 0.5, getYCoordinate()));
         }
 
-
-        //Pipe'ın iki girişi de point olarak bulundu
-
-
-
         shape = DrawShape.drawPipe(status, xCoordinate, yCoordinate,  isEnter1ReallyEnter);
         shape.setStrokeWidth(5);
 
 
     }
-
+    //Setter and getters
+    // Setting coordinates. points are set in this setter method
     public void setCoordinates(int x, int y){
         this.xCoordinate = x;
         this.yCoordinate = y;
