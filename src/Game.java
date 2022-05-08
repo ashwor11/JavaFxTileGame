@@ -43,6 +43,7 @@ public class Game extends Application {
 
     //Declaring global variables and initialize some of them.
     int level = 1;
+    int lastLevel;
     Tile[] tiles;
     ArrayList<Shape> shapes;
     boolean isGameFinished, isSolved;
@@ -89,7 +90,6 @@ public class Game extends Application {
     @Override
     public void start(Stage primaryStage) {
                 unlockedLevels.setValue(level);
-                isSolved = false;
 
                 startGame(primaryStage);
 
@@ -98,20 +98,26 @@ public class Game extends Application {
     //Master method for the game all thw works done inside here
     private void startGame(Stage primaryStage){
 
+        isSolved = false;
+
         //Creating current level
         createTiles(level);
 
+
         //If there is no level to play show an alert
-        if (isGameFinished){
+        if (lastLevel == level){
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "You won the game");
             level--;
             unlockedLevels.getItems().remove(level);
             alert.show();
+            isSolved = false;
             return;
 
         }
 
         playCorrect.stop();
+        playGameStart.stop();
+        playLevelStart.stop();
 
         if (level == 1)
             playGameStart.play();
@@ -166,6 +172,8 @@ public class Game extends Application {
         restart = new Button("Restart");
         //If nextLevel button pressed render the same level all over again
         restart.setOnAction(event -> {
+
+            unlockedLevels.setDisable(false);
             if(isSolved) {
                 level--;
                 isSolved = false;
@@ -244,7 +252,7 @@ public class Game extends Application {
 
         //Top GUI design
         title = new Label();
-        title.setText("GameName");
+        title.setText("Ball Piping");
         title.setTextFill(Color.DARKBLUE);
         title.setFont(Font.font("Times New Roman", FontWeight.BLACK, FontPosture.REGULAR, 36));
 
@@ -262,7 +270,7 @@ public class Game extends Application {
 
         scene = new Scene(borderPane, 600, 600); //Boxes 125*125*4  + 50 pixels from right and left
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Game");
+        primaryStage.setTitle("Ball Piping");
         primaryStage.show();
 
     }
@@ -336,6 +344,7 @@ public class Game extends Application {
             //If there is no file matches with name so there is no level to play. User has won the game.
         } catch (FileNotFoundException e) {
             isGameFinished = true;
+            lastLevel = level;
         }
 
 
@@ -557,7 +566,8 @@ public class Game extends Application {
 
 
         }
-        level++;
+        if(lastLevel != level)
+            level++;
         //Start animation
         unlockedLevels.setDisable(true);
         sequentialTransition.play();
