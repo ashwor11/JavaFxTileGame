@@ -370,8 +370,6 @@ public class Game extends Application {
         if (!((pressedTile.isMoveable) && releasedTile.isMoveable))
             return;
 
-        centerPane.layout();
-
         //Getting coordinates the tiles to help when changing their places. These are pixels.
         double pressedTileLayoutX = releasedTile.getLayoutX();
         double pressedTileLayoutY = releasedTile.getLayoutY();
