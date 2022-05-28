@@ -280,7 +280,7 @@ public class Game extends Application {
     private void createTiles(int level){
         //Initializing tiles to an empty array
         tiles = new Tile[16];
-        String filename = "CSE1242_spring2022_project_level";
+        String filename = "level";
         File file = new File(filename + level + ".txt");
         //Reading file
         try (Scanner sc = new Scanner(file)) {
