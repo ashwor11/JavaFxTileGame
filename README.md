@@ -3,6 +3,12 @@
 A pipe game can be played on PC.  
 <img src="/GamePNGs/BallPiping.png" width="250" height="250" alt= "Starter Tile">
 
+#### Installion
+Inside the folder you want to download the game just type
+```
+git clone git@github.com:ashwor11/JavaFxTileGame.git
+```
+
 #### Tiles
 
 -**Starter**    
@@ -30,7 +36,7 @@ A pipe game can be played on PC.
     
 ## Level System and Adding New Levels
 
-Ball Piping has a special level mechanic which reads .txt files and creates levels. That is mean adding new levels to Ball Piping is not hard.  
+Ball Piping has a special level mechanic which reads .txt files and creates levels. That is means adding new levels to Ball Piping is not hard.  
 For example, this is the contents of level 1.
 ```
 1,Starter,Vertical
